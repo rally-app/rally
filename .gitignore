@@ -23,3 +23,13 @@ build/Release
 # Deployed apps should consider commenting this line out:
 # see https://npmjs.org/doc/faq.html#Should-I-check-my-node_modules-folder-into-git
 node_modules
+
+
+# copied from backbone scaffold
+node_modules
+dist
+test/temp
+.sass-cache
+public/bower_components
+.tmp
+test/bower_components/
