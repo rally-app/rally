@@ -11,6 +11,10 @@ BuildPlanView = Backbone.View.extend({
       <button type="reset" class="clear">Clear</button>
     </div>'].join(''),
 
+  initialize: function() {
+    this.render();
+  },
+
   events: {
     'click .createEvent': 'createEvent',
     'click .clear': 'render'
