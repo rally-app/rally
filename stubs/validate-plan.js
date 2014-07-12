@@ -1,3 +1,5 @@
+"use strict";
+
 module.exports = function( plan ) {
-  return true;
+  return plan === plan;
 };
