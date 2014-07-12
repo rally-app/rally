@@ -2,6 +2,7 @@
 
 var express = require( "express" );
 var router = express.Router();
+var qs = require( "querystring" );
 
 // stub for real db obj/method
 var db = require( "../stubs/db" );
@@ -11,13 +12,20 @@ router.get( "/:id", function( req, res ) {
   .then( function( plan ){
     res.send( plan );
   })
-  .catch( function() {
-    res.send( "Plan not found." );
+  .catch( function( statusCode ) {
+    res.send( 404 );
   });
 });
 
 router.post( "/", function( req, res ) {
-  res.send( "Caught POST to /plan" );
+  db.save( req.body )
+  .then( function( plan ) {
+    res.send( plan );
+  })
+  .catch( function( statusCode ) {
+    res.send( 403 );
+  });
+
 });
 
 module.exports = router;

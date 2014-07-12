@@ -1,19 +1,25 @@
 var Promise = require( "bluebird" );
 
+var validatePlan = require( "./validate-plan" );
+var uniqueId = require( "./uid.js" );
+
 var storage = {
   "mvp-plan": {
-    key: "val"
+    key: "Initial value."
   }
 };
 
 var db = {
   save: function( obj ) {
-    var id = Math.random().toString( 36 ).slice( 2 );
-    storage[id] = JSON.stringify( obj );
     return new Promise( function( resolve, reject ) {
+      if ( !validatePlan( obj ) ) {
+        reject( 403 );
+      }
+      var id = uniqueId();
+      storage[id] = JSON.stringify( obj );
       setTimeout( function() {
-        resolve( id );
-      }, 100 );
+        resolve({ id: id, planData: obj });
+      }, 500 );
     });
   },
   find: function( key ) {
@@ -25,7 +31,7 @@ var db = {
         } else {
           reject();
         }
-      }, 100 );
+      }, 500 );
     });
   }
 };

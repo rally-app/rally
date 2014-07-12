@@ -4,6 +4,7 @@ var favicon = require("static-favicon");
 var logger = require("morgan");
 var cookieParser = require("cookie-parser");
 var bodyParser = require("body-parser");
+var methodOverride = require( "method-override" );
 
 var indexRoute = require("./routes/index");
 var planRoute = require( "./routes/plan" );
@@ -23,6 +24,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRoute);
 app.use( "/plan", planRoute );
+
 /// catch 404 and forwarding to error handler
 app.use(function(req, res, next) {
     var err = new Error("Not Found");
