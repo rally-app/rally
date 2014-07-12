@@ -2,26 +2,30 @@ var VoteOptionsView = Backbone.View.extend(){
 
   tagName: 'div',
   
-  template: ['<div>
-                <span>Great! Where to?</span>
+  template: ['<span id="affirmation">Great! Where to?</span>
+              <div id="options">
                 <div id="rec1-container">
-                  <span id="rec1-title">{{ title }}</span>
-                  <span id="rec1-description"></span>
-                  <span id="rec1-cost"></span><span id="rec1-rating"></span>
-                  <button id="priority">
+                  <input id="priority" type="button" value="Option 1" onclick="setPriority(1)">
                 </div>
                 <div id="rec2-container">
-                  <span id="rec2-title"></span>
-                  <span id="rec2-description"></span>
-                  <span id="rec2-cost"></span><span id="rec2-rating"></span>
+                  <input id="priority" type="button" value="Option 2" onclick="setPriority(2)">
                 </div>
                 <div id="rec3-container">
-                  <span id="rec3-title"></span>
-                  <span id="rec3-description"></span>
-                  <span id="rec3-cost"></span><span id="rec3-rating"></span>
-                  </span>
+                  <input id="priority" type="button" value="Option 3" onclick="setPriority(3)">
                 </div>
-              </div>'].join(''),
+              </div>
+              <div id="vote">
+                <input id="submitVote" type="button" value="Vote!" onclick="submitVote()">
+              </div>
+              <div id="counters">
+                <span id="rally-eta">{{ ??? }}</span>
+                <span id="round-number">{{ currentRound + '/' + rounds.length }}</span>
+                <span id="round-deadline">{{ ??? }}</span>
+              </div>
+
+
+
+              '].join(''),
 
   initialize: function(){
 
@@ -40,3 +44,7 @@ var VoteOptionsView = Backbone.View.extend(){
   }
 
 };
+
+                  // <span id="rec1-title">{{ title }}</span>
+                  // <span id="rec1-description"></span>
+                  // <span id="rec1-cost"></span><span id="rec1-rating"></span>
