@@ -35,7 +35,6 @@ var db = {
       }, 500 );
     });
   },
-
   find: function( key ) {
     return new Bluebird( function( resolve, reject ) {
       var plan = storage[ key ];
