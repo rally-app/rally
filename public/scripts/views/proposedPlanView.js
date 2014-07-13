@@ -1,12 +1,6 @@
 ProposedPlanView = Backbone.View.extend({
 
-  template: ['<div class="proposedPlan">
-      <p> 
-        I wants to {{ hostWhat }} near {{ hostWhere }} at {{ hostWhen }}.
-      </p>
-      <button type="button" class="attending">Check Mark Image</button>
-      <button type="button" class="notAttending">No can do</button>
-    </div>'].join(''),
+  template: '<div class="proposedPlan"><p> I wants to {{ hostWhat }} near {{ hostWhere }} at {{ hostWhen }}.</p><button type="button" class="attending">Check Mark Image</button><button type="button" class="notAttending">No can do</button></div>',
 
   initialize: function() {
     this.render();
