@@ -1,6 +1,6 @@
 var hogan = window.Hogan;
 
-ProposedPlanView = Backbone.View.extend({
+window.ProposedPlanView = Backbone.View.extend({
 
   template: hogan.compile([ '<div class="proposedPlan">',
     '<p>{{ hostName }} wants to {{ hostWhat }} near {{ hostWhere }} at {{ hostWhen }}.</p>',

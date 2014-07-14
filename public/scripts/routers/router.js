@@ -26,7 +26,7 @@ window.Router = Backbone.Router.extend({
   //TODO: will need some session logic to redirect to either vote options or vote confirmed if user has voted on this round.
   proposedPlan: function( id ) {
     var planModel = new PlanModel();
-    planModel.fetch( id: id );
+    planModel.fetch({ id: id });
     var proposedPlanView = new ProposedPlanView({ model: planModel });
   },
 
@@ -34,19 +34,19 @@ window.Router = Backbone.Router.extend({
   //TODO: will need some session logic to redirect to vote confirmed if user has voted on this round.
   voteOptions: function( id, round ) {
     var planModel = new PlanModel();
-    planModel.fetch( id: id );
+    planModel.fetch({ id: id });
     var voteOptionsView = new VoteOptionsView({ model: planModel });
   },
 
   //Renders the voteComfirmed view to indicate a state of waiting for group decision.
   voteConfirmed: function() {
     var planModel = new PlanModel();
-    var voteConfirmedView = new VoteConfirmedView( model: planModel );
+    var voteConfirmedView = new VoteConfirmedView({ model: planModel });
   },
 
   finalizedPlanView: function( id ) {
     var planModel = new PlandModel();
-    planModel.fetch( id: id );
+    planModel.fetch({ id: id });
     var finalizedPlanView = new FinalizedPlanView({ model: planModel });
   }
   
