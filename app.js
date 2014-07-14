@@ -6,6 +6,15 @@ var cookieParser = require("cookie-parser");
 var bodyParser = require("body-parser");
 var methodOverride = require("method-override");
 
+// when running in development mode, the app should accept cross-origin requests for easier testing.
+// var cors = require( "cors" );
+// app.use( function() {
+//   if ( app.get( "env" ) === "development" ) {
+//      // CORS!!!
+//   }   
+// })
+
+
 // var indexRoute = require("./routes/index");
 var planRoute = require("./routes/plan");
 
@@ -23,7 +32,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 // serving index.html statically from public
-// app.use("/", indexRoute);
+// app.use("/", function( req, res ) {
+
+// });
 
 app.use( "/plan", planRoute );
 
