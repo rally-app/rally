@@ -3,7 +3,7 @@ var hogan = window.Hogan;
 
 window.BuildPlanView = Backbone.View.extend({
 
-  template: hogan.complile(['<div class="buildPlan">',
+  template: hogan.compile(['<div class="buildPlan">',
     '<p>',
       '<input type="text" name="hostName" placeholder="Full Name"></input> want to ',
       '<select name="hostWhat">',
@@ -42,7 +42,7 @@ window.BuildPlanView = Backbone.View.extend({
     //Saves the planModel host values to the db then navigate to the first round vote page.
     this.model.save().then( function( response ) {
       console.log( response );
-      this.router.navigate( '/' + this.model.get( 'id' ) + '/' + round + '/' + this.model.get( 'currentRound' ), trigger: true );
+      this.router.navigate( '/' + this.model.get( 'id' ) + '/' + round + '/' + this.model.get( 'currentRound' ), {trigger: true} );
     });
   },
 
