@@ -6,6 +6,7 @@ window.BuildPlanView = Backbone.View.extend({
 
   initialize: function() {
     this.render();
+    $( "body" ).append( this.$el );
   },
 
   events: {
@@ -13,14 +14,19 @@ window.BuildPlanView = Backbone.View.extend({
     'click .clear': 'render'
   },
 
-  createEvent: function() {
-    //I think this will need to post to db instead of changing the model eventually
+  createEvent: function(e) {
+    e && e.preventDefault();
+
+    //Sets the planModel host values equal to the form inputs
     this.model.set('hostWhat', this.$el.find('[name="hostWhat"]').val());
     this.model.set('hostWhere', this.$el.find('[name="hostWhere"]').val());
     this.model.set('hostWhen', this.$el.find('[name="hostWhen"]').val());
     this.model.set('hostWho', this.$el.find('[name="hostWho"]').val());
+
+    //Saves the planModel host values to the db then navigate to the first round vote page.
     this.model.save().then( function( response ) {
       console.log( response );
+      this.router.navigate( '/' + this.model.get('id') + '/' + round + '/' + this.model.get('currentRound'), trigger: true );
     });
   },
 
