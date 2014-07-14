@@ -1,57 +1,55 @@
-var VoteOptionsView = Backbone.View.extend(){
-
-// var VoteModel = Backbone.Model.extend({
-//   planId: String,
-//   userVotes: []
-// });
+var VoteOptionsView = Backbone.View.extend({
 
   tagName: 'div',
-  
-  template: ['<span id="affirmation">Great! Where to?</span>
-              <div id="options">
-                <input class="priority" type="button" value="{{ #rounds[currentRound].options }}{{ optionName }}{{ /rounds[currentRound].options }}">
-              </div>
-              <div id="vote">
-                <input id="submitVote" type="button" value="Vote!">
-              </div>
-              <div id="counters">
-                <span id="rally-eta">{{ ??? }}</span>
-                <span id="round-number">{{ currentRound + '/' + rounds.length }}</span>
-                <span id="round-deadline">{{ ??? }}</span>
-              </div>'].join(''),
+
+  template: ['<span id="affirmation">Great! Where to?</span>',
+              '<div id="options">',
+                '{{ #rounds[currentRound].options }}<input class="priority" type="button" value="{{ optionName }}">{{ /rounds[currentRound].options }}',
+              '</div>',
+              '<div id="vote">',
+                '<input id="submitVote" type="button" value="Vote!">',
+              '</div>',
+              // '<div id="counters">',
+              //   '<span id="rally-eta">{{ ??? }}</span>',
+              //   '<span id="round-number">{{ currentRound + '/' + rounds.length }}</span>',
+              //   '<span id="round-deadline">{{ ??? }}</span>',
+              // '</div>',
+              ].join('\n'),
 
   initialize: function(){
     this.render();
+    this._voteModel = new window.VoteModel({ planId: this.model.get('id') });
   },
 
   events: {
-    'click .priority': 'controller.setPriority',
-    'click #submitVote': 'controller.submitVote' 
+    'click .priority': function(){
+      this.controller.setPriority.call(this)
+    },
+    'click #submitVote': 'submitVote' 
   },
 
   render: function(){
-    this.$el.children.detach();
-    this.$el.html(this.template.compile(this.model.attributes));
-    return $el;
+    this.$el.html(this.template(this.model.attributes));
+    return this;
   },
 
   controller: {
     setPriority: function(num){
-      var userVotes = this.model.get('userVotes');
-      uservotes.push(/* find element that called event, optionName or index */);
-      this.model.set('userVotes', userVotes);
+      var userVotes = this._voteModel.get('userVotes');
+      uservotes.push(findEventTarget().optionName);
+      this._voteModel.set('userVotes', userVotes);
       if( userVotes.length === this.model.get('rounds').length ){
         this.model.trigger('click #submitVote');
       }
     },
 
     submitVote: function(){
-      this.model.save();
+      this._voteModel.save();
     }
 
   }
 
-};
+});
 
 // questions
 // localRound - stored in local storage, instead of rounds[0]
