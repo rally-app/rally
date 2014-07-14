@@ -1,4 +1,13 @@
-Router = Backbone.Router.extend({
+
+var PlanModel = window.PlanModel;
+var BuildPlanView = window.BuildPlanView;
+var ProposedPlanView = window.ProposedPlanView;
+var VoteOptionsView = window.VoteOptionsView;
+var VoteConfirmedView = window.VoteConfirmedView;
+var FinalizedPlanView = window.FinalizedPlanView;
+
+
+window.Router = Backbone.Router.extend({
 
   Routes: {
     "/": "buildPlan",

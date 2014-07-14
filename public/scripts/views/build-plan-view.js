@@ -3,7 +3,7 @@ var hogan = window.Hogan;
 
 window.BuildPlanView = Backbone.View.extend({
 
-  template: hogan.complile(['<div class="buildPlan">',
+  template: hogan.compile(['<div class="buildPlan">',
     '<p>',
       '<input type="text" name="hostName" placeholder="Full Name"></input> want to ',
       '<select name="hostWhat">',
