@@ -60,20 +60,10 @@
     <script src="scripts/views/buildPlanView.js"></script>
 
     <script>
-      // myModel = new window.PlanModel({id: "mvp-plan"});
-      // myModel.fetch();
-      // myModel.on( "change", function() {
-      //   var myView = new window.BuildPlanView({ model: myModel });
-      //   myView.render();
-      //   $( "body" ).append( myView.$el );
-      //   myView.render();
-      // });
       
-      var myModel = new window.PlanModel();
-      var myView = new window.BuildPlanView({ model: myModel });
-      myView.render();
-      $( "body" ).append( myView.$el );
-      myView.render();     
+      window.modelData = {"id":"mvp-plan","hostName":"Nick","hostWho":["jared@email.com","mike@email.com"],"hostWhen":"7:00pm today","hostWhat":"drinks","hostWhere":{"hostSubmitted":"uptown oakland"},"createdAt":"2014-07-14T22:48:06.010Z","rounds":[{"options":[{"optionName":"Make Westing","votes":0},{"optionName":"Fauna","votes":0},{"optionName":"Layover","votes":0}],"winner":null}]};
+
+      window.testModel = new PlanModel( modelData );
 
     </script>
 </body>
