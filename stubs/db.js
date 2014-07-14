@@ -22,19 +22,7 @@ var storage = {
 };
 
 var db = {
-  save: function( obj ) {
-    return new Bluebird( function( resolve, reject ) {
-      if ( !validatePlan( obj ) ) {
-        reject( BAD_REQUEST );
-      }
-      var id = uniqueId();
-      obj.id = id;
-      storage[id] = JSON.stringify( obj );
-      setTimeout( function() {
-        resolve( plan );
-      }, 500 );
-    });
-  },
+  // GET
   find: function( key ) {
     return new Bluebird( function( resolve, reject ) {
       var plan = storage[ key ];
@@ -44,6 +32,20 @@ var db = {
         } else {
           reject( NOT_FOUND );
         }
+      }, 500 );
+    });
+  },
+  // POST
+  save: function( obj ) {
+    return new Bluebird( function( resolve, reject ) {
+      if ( !validatePlan( obj ) ) {
+        reject( BAD_REQUEST );
+      }
+      var id = uniqueId();
+      obj.id = id;
+      storage[id] = JSON.stringify( obj );
+      setTimeout( function() {
+        resolve( obj );
       }, 500 );
     });
   }

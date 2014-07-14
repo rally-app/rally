@@ -1,0 +1,17 @@
+#!/usr/bin/env node
+
+// Script to start the server in dev mode
+
+// require the app
+var app = require( "../app" );
+
+// set the app's environment to development
+app.set( "env", "development" );
+
+// set the app's port
+app.set( "port", process.env.PORT || 3000 );
+
+// start the server on the specified port
+var server = app.listen( app.get( "port" ), function() {
+  console.log( "Express server running in DEVELOPMENT MODE on port " + server.address().port );
+});
