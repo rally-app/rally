@@ -42,7 +42,7 @@ window.BuildPlanView = Backbone.View.extend({
     //Saves the planModel host values to the db then navigate to the first round vote page.
     this.model.save().then( function( response ) {
       console.log( response );
-      this.router.navigate( '/' + this.model.get( 'id' ) + '/' + round + '/' + this.model.get( 'currentRound' ), trigger: true );
+      this.router.navigate( '/' + this.model.get( 'id' ) + '/' + round + '/' + this.model.get( 'currentRound' ), {trigger: true} );
     });
   },
 
