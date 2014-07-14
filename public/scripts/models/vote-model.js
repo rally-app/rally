@@ -1,7 +1,3 @@
-var VoteModel = Backbone.Model.extend({
-
-  planId: String, //from PlanModel
-
-  userVotes: []
-
+window.VoteModel = Backbone.Model.extend({
+  urlRoot: "/vote"
 });
