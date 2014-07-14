@@ -1,8 +1,10 @@
+var hogan = window.Hogan;
+
 var VoteOptionsView = Backbone.View.extend({
 
   tagName: 'div',
 
-  template: ['<span id="affirmation">Great! Where to?</span>',
+  template: hogan.compile(['<span id="affirmation">Great! Where to?</span>',
               '<div id="options">',
                 '{{ #rounds[currentRound].options }}<input class="priority" type="button" value="{{ optionName }}">{{ /rounds[currentRound].options }}',
               '</div>',
@@ -14,11 +16,15 @@ var VoteOptionsView = Backbone.View.extend({
               //   '<span id="round-number">{{ currentRound + '/' + rounds.length }}</span>',
               //   '<span id="round-deadline">{{ ??? }}</span>',
               // '</div>',
-              ].join('\n'),
+              ].join('\n')),
 
   initialize: function(){
     this.render();
-    this._voteModel = new window.VoteModel({ planId: this.model.get('id') });
+    this._voteModel = new window.VoteModel({
+      planId: this.model.get('id'),
+      userVotes: [],
+      currentRound: this.model.get('currentRound')
+    });
   },
 
   events: {
@@ -36,7 +42,7 @@ var VoteOptionsView = Backbone.View.extend({
   controller: {
     setPriority: function(num){
       var userVotes = this._voteModel.get('userVotes');
-      uservotes.push(findEventTarget().optionName);
+      userVotes.push(findEventTarget().optionName);
       this._voteModel.set('userVotes', userVotes);
       if( userVotes.length === this.model.get('rounds').length ){
         this.model.trigger('click #submitVote');
