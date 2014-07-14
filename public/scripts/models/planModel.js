@@ -2,6 +2,7 @@ var PlanModel = Backbone.Model.extend({
 
 
 // {
+  // id: 2392x029348jkoasdf,
   // hostWho: ['Larry', 'Curly', 'Moe']
   // hostWhen: new Date(),
   // hostWhat: 'Drink',
