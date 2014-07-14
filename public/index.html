@@ -56,9 +56,25 @@
     <script src="scripts/templates.js"></script>
     <!-- endbuild -->
 
+    <script src="scripts/models/planModel.js"></script>
+    <script src="scripts/views/buildPlanView.js"></script>
+
     <script>
-      myModel = new PlanModel({id: "mvp-plan"});
-      myModel.fetch();
+      // myModel = new window.PlanModel({id: "mvp-plan"});
+      // myModel.fetch();
+      // myModel.on( "change", function() {
+      //   var myView = new window.BuildPlanView({ model: myModel });
+      //   myView.render();
+      //   $( "body" ).append( myView.$el );
+      //   myView.render();
+      // });
+      
+      var myModel = new window.PlanModel();
+      var myView = new window.BuildPlanView({ model: myModel });
+      myView.render();
+      $( "body" ).append( myView.$el );
+      myView.render();     
+
     </script>
 </body>
 </html>

@@ -4,6 +4,6 @@
 "use strict";
 
 module.exports = function() {
-  return "mvp-plan";
-  // return Math.random().toString( 36 ).slice( 2 );
+  // return "mvp-plan";
+  return Math.random().toString( 36 ).slice( 2 );
 }
