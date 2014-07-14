@@ -1,6 +1,11 @@
+var hogan = window.Hogan;
+
 ProposedPlanView = Backbone.View.extend({
 
-  template: '<div class="proposedPlan"><p> I wants to {{ hostWhat }} near {{ hostWhere }} at {{ hostWhen }}.</p><button type="button" class="attending">Check Mark Image</button><button type="button" class="notAttending">No can do</button></div>',
+  template: hogan.compile([ '<div class="proposedPlan">',
+    '<p>{{ hostName }} wants to {{ hostWhat }} near {{ hostWhere }} at {{ hostWhen }}.</p>',
+    '<button type="button" class="attending">Check Mark Image</button>',
+    '<button type="button" class="notAttending">No can do</button></div>' ].join( "" )),
 
   initialize: function() {
     this.render();
@@ -15,7 +20,7 @@ ProposedPlanView = Backbone.View.extend({
     e && e.preventDefault();
     //**todo
     //send info to db indicating an invitation acceptance
-
+    
     //this will be the route for the first vote view
     //this.router.navigate('route goes here', { trigger: true })
   },
@@ -30,7 +35,7 @@ ProposedPlanView = Backbone.View.extend({
   },
 
   render: function() {
-    this.$el.html(this.template(this.model.attributes));
+    this.$el.html( this.template( this.model.attributes ));
     return this;
   }
 })
