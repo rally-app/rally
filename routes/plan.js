@@ -28,8 +28,4 @@ router.post( "/", function( req, res ) {
   });
 });
 
-router.post( "/:id/vote/:round", function( req, res ) {
-
-});
-
 module.exports = router;
