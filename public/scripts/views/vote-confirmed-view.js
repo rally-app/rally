@@ -7,6 +7,7 @@ window.VoteConfirmedView = Backbone.View.extend({
 
   initialize: function() {
     this.render();
+    $( 'body' ).append( this.$el );
   },
 
   render: function() {

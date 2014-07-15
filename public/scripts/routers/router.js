@@ -12,9 +12,9 @@ window.Router = Backbone.Router.extend({
   Routes: {
     "/": "buildPlan",
     "/:id": "proposedPlan",
-    "/:id/round/:roundNum": "voteOptionsView",
+    "/:id/round/:roundNum": "voteOptions",
     "/:id/round/:roundNum/voted": "voteConfirmed",
-    "/:id/result": "finalizedPlanView"
+    "/:id/result": "finalizedPlan"
   },
 
   buildPlan: function() {
@@ -44,7 +44,7 @@ window.Router = Backbone.Router.extend({
     var voteConfirmedView = new VoteConfirmedView({ model: planModel });
   },
 
-  finalizedPlanView: function( id ) {
+  finalizedPlan: function( id ) {
     var planModel = new PlandModel();
     planModel.fetch({ id: id });
     var finalizedPlanView = new FinalizedPlanView({ model: planModel });
