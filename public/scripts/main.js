@@ -5,4 +5,4 @@ function init() {
 }
 
 
-$( document ).ready( init )
+$( document ).ready( init );
