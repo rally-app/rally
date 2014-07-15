@@ -9,7 +9,7 @@ window.VoteOptionsView = Backbone.View.extend({
   template: hogan.compile( ['<span id="affirmation">Great! Where to?</span>',
               '<div id="options">',
                 '{{#currentRoundOptions}}',
-                '<input class="priority" type="button" value="{{optionName}}">',
+                '<input class="priority" type="button" value="{{optionName}}" data-index="{{index}}">',
                   //'<span id="rec1-title">{{title}}</span>', //modify when decide on final recommendation properties to display
                   //'<span id="rec1-description"></span>',
                   //'<span id="rec1-cost"></span><span id="rec1-rating"></span>',
@@ -27,19 +27,20 @@ window.VoteOptionsView = Backbone.View.extend({
 
   initialize: function(){
     this.render();
+    // this.model.on( 'change', this.render.bind( this ) ); // ??? remove this once we ascertain the order of fetch
     this._voteModel = new window.VoteModel({
       planId: this.model.get( 'id' ),
       userVotes: [],
       currentRoundNum: this.model.get( 'currentRoundNum' )
     });
-    $( 'body' ).append( this.$el ); // ??? shouldn't this be appended in a master app view or maybe router?
   },
 
   events: {
     'click .priority': function(event){
       event.preventDefault();
       $(event.currentTarget).attr( 'disabled', 'disabled' );
-      this.controller.setPriority.call( this, event.currentTarget.value );
+      console.log(event.currentTarget);
+      this.controller.setPriority.call( this, $('.priority').indexOf(event.currentTarget.data.index) );
     },
     'click #submitVote': function(event){
       event.preventDefault();
@@ -67,8 +68,6 @@ window.VoteOptionsView = Backbone.View.extend({
       this._voteModel.save()
       .then( function( response ) {
         console.log('server response after submitVote: ', response);
-        this.$el.remove();
- //might change the following if we change model to VoteModel
         router.navigate( '/' + this.model.get( 'id' ) + '/round/' + this.model.get( 'currentRoundNum' ) + '/voted', { trigger: true } );
       });
     }
