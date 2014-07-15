@@ -33,7 +33,7 @@ window.BuildPlanView = Backbone.View.extend({
     e && e.preventDefault();
 
     //Sets the planModel host values equal to the form inputs
-    this.model.set( 'hostWho', parseInvites(this.$el.find('[name="hostWho"]' ).val()));
+    this.model.set( 'hostWho', this.parseInvites(this.$el.find('[name="hostWho"]' ).val()));
     this.model.set( 'hostName', this.$el.find('[name="hostName"]' ).val());
     this.model.set( 'hostWhat', this.$el.find('[name="hostWhat"]' ).val());
     this.model.set( 'hostWhere', this.$el.find('[name="hostWhere"]' ).val());
@@ -51,7 +51,7 @@ window.BuildPlanView = Backbone.View.extend({
   },
 
   render: function() {
-    this.$el.html( this.template( this.model.attributes ) );
+    this.$el.html( this.template.render( this.model.attributes ) );
     return this;
   }
 

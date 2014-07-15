@@ -21,6 +21,7 @@
 
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+    <!--
     <script>
       (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
       function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
@@ -29,7 +30,8 @@
       r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
       ga('create','UA-XXXXX-X');ga('send','pageview');
     </script>
-
+    -->
+    
     <!-- build:js scripts/vendor.js -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/underscore/underscore.js"></script>
@@ -54,21 +56,47 @@
 
     <!-- build:js({.tmp,app}) scripts/main.js -->
     <script src="scripts/main.js"></script>
-    <script src="scripts/templates.js"></script>
     <!-- endbuild -->
 
+
+    <!--
+        BACKBONE MODEL SCRIPTS
+    -->
+
+    <!-- models -->
     <script src="scripts/models/plan-model.js"></script>
+    
+    <!-- collections -->
+    <!-- none -->
+
+    <!-- views -->
     <script src="scripts/views/build-plan-view.js"></script>
+    <script src="scripts/views/final-plan-view.js"></script>
+    <script src="scripts/views/vote-confirmed-view.js"></script>
+    <script src="scripts/views/vote-options-view.js"></script>
+
+    <!-- routers -->
     <script src="scripts/routers/router.js"></script>
+
 
     <script>
       $( document ).ready( function() {
-        var router = new Backbone.Router();
-        Backbone.history.start();
+
+
 
         window.modelData = {"id":"mvp-plan","hostName":"Nick","hostWho":["jared@email.com","mike@email.com"],"hostWhen":"7:00pm today","hostWhat":"drinks","hostWhere":{"hostSubmitted":"uptown oakland"},"createdAt":"2014-07-14T22:48:06.010Z","rounds":[{"options":[{"optionName":"Make Westing","votes":0},{"optionName":"Fauna","votes":0},{"optionName":"Layover","votes":0}],"winner":null}]};
-        window.testModel = new PlanModel( modelData );
-        
+
+        // instantiate class instances to ensure no 
+        window.router = new Backbone.Router();
+        Backbone.history.start();
+
+        window._planModel = new PlanModel( modelData ); 
+
+        window._buildPlanView = new BuildPlanView({ model: _planModel });
+        // window._finalPlanView = new FinalPlanView({ model: _planModel });
+        // window._proposedPlanView = new ProposedPlanView({ model: _planModel });
+        // window._voteConfirmedView = new VoteConfirmedView({ model: _planModel });
+        window._voteOptionsView = new VoteOptionsView({ model: _planModel });
       });
 
 
