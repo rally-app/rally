@@ -9,7 +9,6 @@ window.ProposedPlanView = Backbone.View.extend({
 
   initialize: function() {
     this.render();
-    $( 'body' ).append( this.$el );
   },
 
   events: {

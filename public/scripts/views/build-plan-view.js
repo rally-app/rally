@@ -21,7 +21,6 @@ window.BuildPlanView = Backbone.View.extend({
 
   initialize: function() {
     this.render();
-    $( "body" ).append( this.$el );
   },
 
   events: {

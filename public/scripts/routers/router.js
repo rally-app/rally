@@ -21,6 +21,7 @@ window.Router = Backbone.Router.extend({
     $( 'body' ).empty();
     var planModel = new PlanModel();
     var buildPlanView = new BuildPlanView({ model: planModel });
+    $( 'body' ).append( buildPlanView.$el );
   },
 
   //Renders a view for invitees to accept the invitaion to rally
@@ -30,6 +31,7 @@ window.Router = Backbone.Router.extend({
     var planModel = new PlanModel({ id: id });
     planModel.fetch();
     var proposedPlanView = new ProposedPlanView({ model: planModel });
+    $( 'body' ).append( proposedPlanView.$el );
   },
 
   //Renders a view for the first round of voting
@@ -39,6 +41,7 @@ window.Router = Backbone.Router.extend({
     var planModel = new PlanModel({ id: id });
     planModel.fetch();
     var voteOptionsView = new VoteOptionsView({ model: planModel });
+    $( 'body' ).append( voteOptionsView.$el );
   },
 
   //Renders the voteComfirmed view to indicate a state of waiting for group decision.
@@ -46,6 +49,7 @@ window.Router = Backbone.Router.extend({
     $( 'body' ).empty();
     var planModel = new PlanModel();
     var voteConfirmedView = new VoteConfirmedView({ model: planModel });
+    $( 'body' ).append( voteConfirmedView.$el );
   },
 
   finalizedPlan: function( id ) {
@@ -53,6 +57,7 @@ window.Router = Backbone.Router.extend({
     var planModel = new PlanModel({ id: id });
     planModel.fetch();
     var finalizedPlanView = new FinalizedPlanView({ model: planModel });
+    $( 'body' ).append( finalizedPlanView.$el );
   }
   
 });
