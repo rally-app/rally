@@ -50,4 +50,4 @@ window.Router = Backbone.Router.extend({
     var finalizedPlanView = new FinalizedPlanView({ model: planModel });
   }
   
-})
+});
