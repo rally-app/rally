@@ -1,12 +1,19 @@
 var hogan = window.Hogan;
 
-var VoteOptionsView = Backbone.View.extend({
+window.VoteOptionsView = Backbone.View.extend({
 
   tagName: 'div',
 
-  template: hogan.compile(['<span id="affirmation">Great! Where to?</span>',
+  className: 'voteOptionsView',
+
+  template: hogan.compile( ['<span id="affirmation">Great! Where to?</span>',
               '<div id="options">',
-                '{{ #rounds[currentRound].options }}<input class="priority" type="button" value="{{ optionName }}">{{ /rounds[currentRound].options }}',
+                '{{#currentRoundOptions}}',
+                '<input class="priority" type="button" value="{{optionName}}">',
+                  //'<span id="rec1-title">{{title}}</span>', //modify when decide on final recommendation properties to display
+                  //'<span id="rec1-description"></span>',
+                  //'<span id="rec1-cost"></span><span id="rec1-rating"></span>',
+                '{{/currentRoundOptions}}',
               '</div>',
               '<div id="vote">',
                 '<input id="submitVote" type="button" value="Vote!">',
@@ -16,22 +23,28 @@ var VoteOptionsView = Backbone.View.extend({
               //   '<span id="round-number">{{ currentRound + '/' + rounds.length }}</span>',
               //   '<span id="round-deadline">{{ ??? }}</span>',
               // '</div>',
-              ].join('\n')),
+              ].join('\n') ),
 
   initialize: function(){
     this.render();
-    // this._voteModel = new window.VoteModel({
-    //   planId: this.model.get('id'),
-    //   userVotes: [],
-    //   currentRound: this.model.get('currentRound')
-    // });
+    this._voteModel = new window.VoteModel({
+      planId: this.model.get( 'id' ),
+      userVotes: [],
+      currentRoundNum: this.model.get( 'currentRoundNum' )
+    });
+    $( 'body' ).append( this.$el ); // ??? shouldn't this be appended in a master app view or maybe router?
   },
 
   events: {
-    'click .priority': function(){
-      this.controller.setPriority.call(this)
+    'click .priority': function(event){
+      event.preventDefault();
+      $(event.currentTarget).attr( 'disabled', 'disabled' );
+      this.controller.setPriority.call( this, event.currentTarget.value );
     },
-    'click #submitVote': 'submitVote' 
+    'click #submitVote': function(event){
+      event.preventDefault();
+      this.controller.submitVote.call( this );
+    }
   },
 
   render: function(){
@@ -40,17 +53,20 @@ var VoteOptionsView = Backbone.View.extend({
   },
 
   controller: {
-    setPriority: function(num){
-      var userVotes = this._voteModel.get('userVotes');
-      userVotes.push(findEventTarget().optionName);
-      this._voteModel.set('userVotes', userVotes);
-      if( userVotes.length === this.model.get('rounds').length ){
-        this.model.trigger('click #submitVote');
+    setPriority: function( option ){
+      var userVotes = this._voteModel.get( 'userVotes' );
+      userVotes.push( option );
+      this._voteModel.set( 'userVotes', userVotes );
+      var currentRoundOptions = this.model.get( 'currentRoundOptions' );
+      if( userVotes.length === currentRoundOptions.length ){
+        $( '#submitVote' ).trigger( 'click' );
       }
     },
 
     submitVote: function(){
       this._voteModel.save();
+      this.$el.remove();
+      new VoteConfirmedView( { model: window._planModel } ); // ??? should this go here? seems like tight coupling
     }
 
   }
@@ -58,8 +74,11 @@ var VoteOptionsView = Backbone.View.extend({
 });
 
 // questions
-// localRound - stored in local storage, instead of rounds[0]
+  // localRound - stored in local storage, instead of rounds[0]
+  // will there be a separate tracking of each user and the round they require? or via local storage?
+  // mustache is logic-less, so need rounds in currentRound (and currentRoundNum for later)
+    // reconsider VoteModel for this view's model!
+  // instantiating sub-views in app view or even router? how to balance tight coupling vs master brain
 
-                  // <span id="rec1-title">{{ title }}</span>
-                  // <span id="rec1-description"></span>
-                  // <span id="rec1-cost"></span><span id="rec1-rating"></span>
+// notes
+  // MUST NOT put spaces in mustaches like {{ asdf }} bc will not parse correctly - lost a couple of hours on this
