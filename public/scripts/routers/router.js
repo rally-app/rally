@@ -30,7 +30,7 @@ window.Router = Backbone.Router.extend({
     $( 'body' ).empty();
     var planModel = new PlanModel({ id: id });
     
-    planModel.fetch().then( function( planModel ){
+    planModel.fetch().then( function(){
       var proposedPlanView = new ProposedPlanView({ model: planModel });
       $( 'body' ).append( proposedPlanView.$el );
     });
@@ -43,7 +43,7 @@ window.Router = Backbone.Router.extend({
     $( 'body' ).empty();
     var planModel = new PlanModel({ id: id });
 
-    planModel.fetch().then( function( planModel ){
+    planModel.fetch().then( function(){
       var voteOptionsView = new VoteOptionsView({ model: planModel });
       $( 'body' ).append( voteOptionsView.$el );
     });
@@ -55,7 +55,7 @@ window.Router = Backbone.Router.extend({
     $( 'body' ).empty();
     var planModel = new PlanModel({ id: id });
 
-    planModel.fetch().then( function( planModel ){
+    planModel.fetch().then( function(){
       //voteConfirmedView is currently unaffected by planModel, but will eventually utilize it.
       var voteConfirmedView = new VoteConfirmedView({ model: planModel });
       $( 'body' ).append( voteConfirmedView.$el );
@@ -67,7 +67,7 @@ window.Router = Backbone.Router.extend({
     $( 'body' ).empty();
     var planModel = new PlanModel({ id: id });
 
-    planModel.fetch().then( function( planModel ){
+    planModel.fetch().then( function(){
       var finalizedPlanView = new FinalizedPlanView({ model: planModel });
       $( 'body' ).append( finalizedPlanView.$el );
     });
