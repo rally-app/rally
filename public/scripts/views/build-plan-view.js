@@ -41,13 +41,14 @@ window.BuildPlanView = Backbone.View.extend({
     this.model.set( 'hostWhere', this.$el.find('[name="hostWhere"]' ).val() );
     this.model.set( 'hostWhen', this.$el.find('[name="hostWhen"]' ).val() );
 
-    // this.model.set( 'currentRound', 1 );
+    // this.model.set( 'currentRoundNum', 0 );
 
     //Saves the planModel host values to the db then navigate to the first round vote page.
     var self = this;
     this.model.save().then( function( response ) {
       console.log( response );
-      router.navigate( '/' + self.model.get( 'id' ) + '/' + 'round' + '/' + self.model.get( 'currentRound' ), { trigger: true } );
+      self.$el.remove();
+      router.navigate( '/' + self.model.get( 'id' ) + '/round/' + self.model.get( 'currentRoundNum' ), { trigger: true } );
     });
   },
 
