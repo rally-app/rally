@@ -28,9 +28,13 @@ window.Router = Backbone.Router.extend({
   //TODO: will need some session logic to redirect to either vote options or vote confirmed if user has voted on this round.
   proposedPlan: function( id ) {
     $( 'body' ).empty();
-    var planModel = new PlanModel();
-    var proposedPlanView = new ProposedPlanView({ model: planModel });
-    $( 'body' ).append( proposedPlanView.$el );
+    var planModel = new PlanModel({ id: id });
+    
+    planModel.fetch().then( function( planModel ){
+      var proposedPlanView = new ProposedPlanView({ model: planModel });
+      $( 'body' ).append( proposedPlanView.$el );
+    });
+
   },
 
   //Renders a view for the first round of voting
