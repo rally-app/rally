@@ -64,21 +64,15 @@ window.VoteOptionsView = Backbone.View.extend({
     },
 
     submitVote: function(){
-      this._voteModel.save();
-      this.$el.remove();
-      new VoteConfirmedView( { model: window._planModel } ); // ??? should this go here? seems like tight coupling
+      this._voteModel.save()
+      .then( function( response ) {
+        console.log('server response after submitVote: ', response);
+        this.$el.remove();
+ //might change the following if we change model to VoteModel
+        router.navigate( '/' + this.model.get( 'id' ) + '/round/' + this.model.get( 'currentRoundNum' ) + '/voted', { trigger: true } );
+      });
     }
 
   }
 
 });
-
-// questions
-  // localRound - stored in local storage, instead of rounds[0]
-  // will there be a separate tracking of each user and the round they require? or via local storage?
-  // mustache is logic-less, so need rounds in currentRound (and currentRoundNum for later)
-    // reconsider VoteModel for this view's model!
-  // instantiating sub-views in app view or even router? how to balance tight coupling vs master brain
-
-// notes
-  // MUST NOT put spaces in mustaches like {{ asdf }} bc will not parse correctly - lost a couple of hours on this
