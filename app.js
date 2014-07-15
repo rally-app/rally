@@ -18,6 +18,7 @@ var methodOverride = require( 'method-override' );
 
 // var indexRoute = require( './routes/index' );
 var planRoute = require( './routes/plan' );
+var voteRoute = require( './routes/vote' );
 
 var app = express();
 
@@ -43,6 +44,7 @@ app.use( express.static( path.join( __dirname, 'public' ) ) );
 // });
 
 app.use( '/plan', planRoute );
+app.use( '/vote', voteRoute );
 
 /// catch 404 and forwarding to error handler
 app.use(function(req, res, next) {
