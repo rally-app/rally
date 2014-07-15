@@ -18,36 +18,46 @@ window.Router = Backbone.Router.extend({
   },
 
   buildPlan: function() {
+    $( 'body' ).empty();
     var planModel = new PlanModel();
     var buildPlanView = new BuildPlanView({ model: planModel });
+    $( 'body' ).append( buildPlanView.$el );
   },
 
   //Renders a view for invitees to accept the invitaion to rally
   //TODO: will need some session logic to redirect to either vote options or vote confirmed if user has voted on this round.
   proposedPlan: function( id ) {
+    $( 'body' ).empty();
     var planModel = new PlanModel({ id: id });
     planModel.fetch();
     var proposedPlanView = new ProposedPlanView({ model: planModel });
+    $( 'body' ).append( proposedPlanView.$el );
   },
 
   //Renders a view for the first round of voting
   //TODO: will need some session logic to redirect to vote confirmed if user has voted on this round.
   voteOptions: function( id ) {
+    $( 'body' ).empty();
     var planModel = new PlanModel({ id: id });
     planModel.fetch();
     var voteOptionsView = new VoteOptionsView({ model: planModel });
+    $( 'body' ).append( voteOptionsView.$el );
   },
 
   //Renders the voteComfirmed view to indicate a state of waiting for group decision.
   voteConfirmed: function() {
+    $( 'body' ).empty();
     var planModel = new PlanModel();
     var voteConfirmedView = new VoteConfirmedView({ model: planModel });
+    $( 'body' ).append( voteConfirmedView.$el );
   },
 
   finalizedPlan: function( id ) {
+    $( 'body' ).empty();
     var planModel = new PlanModel({ id: id });
     planModel.fetch();
     var finalizedPlanView = new FinalizedPlanView({ model: planModel });
+    $( 'body' ).append( finalizedPlanView.$el );
   }
   
 });

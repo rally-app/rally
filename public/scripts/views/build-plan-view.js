@@ -21,7 +21,6 @@ window.BuildPlanView = Backbone.View.extend({
 
   initialize: function() {
     this.render();
-    $( "body" ).append( this.$el );
   },
 
   events: {
@@ -46,8 +45,6 @@ window.BuildPlanView = Backbone.View.extend({
     //Saves the planModel host values to the db then navigate to the first round vote page.
     var self = this;
     this.model.save().then( function( response ) {
-      console.log( response );
-      self.$el.remove();
       router.navigate( '/' + self.model.get( 'id' ) + '/round/' + self.model.get( 'currentRoundNum' ), { trigger: true } );
     });
   },
