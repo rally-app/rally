@@ -20,11 +20,11 @@ var VoteOptionsView = Backbone.View.extend({
 
   initialize: function(){
     this.render();
-    this._voteModel = new window.VoteModel({
-      planId: this.model.get('id'),
-      userVotes: [],
-      currentRound: this.model.get('currentRound')
-    });
+    // this._voteModel = new window.VoteModel({
+    //   planId: this.model.get('id'),
+    //   userVotes: [],
+    //   currentRound: this.model.get('currentRound')
+    // });
   },
 
   events: {
@@ -35,7 +35,7 @@ var VoteOptionsView = Backbone.View.extend({
   },
 
   render: function(){
-    this.$el.html(this.template(this.model.attributes));
+    this.$el.html( this.template.render( this.model.attributes ) );
     return this;
   },
 
