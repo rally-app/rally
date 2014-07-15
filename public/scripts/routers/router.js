@@ -25,7 +25,6 @@ window.Router = Backbone.Router.extend({
   //Renders a view for invitees to accept the invitaion to rally
   //TODO: will need some session logic to redirect to either vote options or vote confirmed if user has voted on this round.
   proposedPlan: function( id ) {
-    console.log( "yeah" );
     var planModel = new PlanModel();
     planModel.fetch({ id: id });
     var proposedPlanView = new ProposedPlanView({ model: planModel });
