@@ -2,9 +2,10 @@ window.PlanModel = Backbone.Model.extend({
   urlRoot: '/plan/',
 
   initialize: function() {
-    this.on( 'sync', function() {
-      this.setCurrentRound.call( this );
-      this.setOptionIndices.call( this );
+    this.set( 'rounds', []);
+    this.on( 'sync', function(){
+      this.setCurrentRound();
+      this.setOptionIndices();
     }, this);
   },
 
@@ -24,7 +25,7 @@ window.PlanModel = Backbone.Model.extend({
 
   setOptionIndices: function() {
     var currentRoundOptions = this.get( 'currentRoundOptions' );
-    for( var i = 0; i < currentRoundOptions.length ){
+    for( var i = 0; i < currentRoundOptions.length; i++ ){
       currentRoundOptions[i].set( 'index', i );
       console.log( 'currentRoundOptions: ', currentRoundOptions[i].optionName, currentRoundOptions[i].index );
     }
