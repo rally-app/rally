@@ -65,6 +65,7 @@
 
     <!-- models -->
     <script src="scripts/models/plan-model.js"></script>
+    <script src="scripts/models/vote-model.js"></script>
     
     <!-- collections -->
     <!-- none -->
@@ -86,7 +87,7 @@
 
       $( document ).ready( function() {
 
-        window.modelData = {"id":"mvp-plan","hostName":"Nick","hostWho":["jared@email.com","mike@email.com"],"hostWhen":"7:00pm today","hostWhat":"drinks","hostWhere":{"hostSubmitted":"uptown oakland"},"createdAt":"2014-07-14T22:48:06.010Z","rounds":[{"options":[{"optionName":"Make Westing","votes":0},{"optionName":"Fauna","votes":0},{"optionName":"Layover","votes":0}],"winner":null}]};
+        window.modelData = {"id":"mvp-plan","hostName":"Nick","hostWho":["jared@email.com","mike@email.com"],"hostWhen":"7:00pm today","hostWhat":"drinks","hostWhere":{"hostSubmitted":"uptown oakland"},"createdAt":"2014-07-14T22:48:06.010Z","rounds":[{"options":[{"optionName":"Make Westing","votes":0},{"optionName":"Fauna","votes":0},{"optionName":"Layover","votes":0}],"winner":null}],"currentRoundNum":1,"currentRoundOptions":[{"optionName":"Make Westing"},{"optionName":"Fauna"},{"optionName":"Layover"}]};
 
         // instantiate class instances to ensure no 
 
