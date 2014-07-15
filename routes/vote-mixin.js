@@ -1,12 +1,9 @@
 'use strict';
 
-var express = require( 'express' );
-var router = express.Router();
-
 var db = require( '../stubs/db' );
 var voteAlgorithm = require( '../stubs/vote-algorithm' );
 
-router.post( '/', function( req, res ) {
+var postVote = function( req, res ) {
   var postedVote = req.body;
   db.save( 'vote', postedVote )
   .then( function( vote ) {
@@ -31,7 +28,13 @@ router.post( '/', function( req, res ) {
   })
   .catch( function( statusCode ) {
     res.send( statusCode );
-  });
-});
+  });  
+}
 
-module.exports = router;
+module.exports = [
+  {
+    method: "post",
+    url: "/",
+    handler: postVote
+  }
+];
