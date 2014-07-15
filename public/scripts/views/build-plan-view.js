@@ -41,13 +41,17 @@ window.BuildPlanView = Backbone.View.extend({
     this.model.set( 'hostWhere', this.$el.find('[name="hostWhere"]' ).val() );
     this.model.set( 'hostWhen', this.$el.find('[name="hostWhen"]' ).val() );
 
+    // this.model.set( 'currentRound', 1 );
+
     //Saves the planModel host values to the db then navigate to the first round vote page.
+    var self = this;
     this.model.save().then( function( response ) {
       console.log( response );
-      this.router.navigate( '/' + this.model.get( 'id' ) + '/' + round + '/' + this.model.get( 'currentRound' ), { trigger: true } );
+      router.navigate( '/' + self.model.get( 'id' ) + '/' + 'round' + '/' + self.model.get( 'currentRound' ), { trigger: true } );
     });
   },
 
+  //Remove all spaces and split email entries into an array of emails.
   parseInvites: function(emailString) {
     return emailString.replace( /\s/g, '' ).split( ',' );
   },
