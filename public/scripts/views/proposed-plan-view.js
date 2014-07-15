@@ -2,10 +2,10 @@ var hogan = window.Hogan;
 
 window.ProposedPlanView = Backbone.View.extend({
 
-  template: hogan.compile([ '<div class="proposedPlan">',
+  template: hogan.compile( [ '<div class="proposedPlan">',
     '<p>{{ hostName }} wants to {{ hostWhat }} near {{ hostWhere }} at {{ hostWhen }}.</p>',
     '<button type="button" class="attending">Check Mark Image</button>',
-    '<button type="button" class="notAttending">No can do</button></div>' ].join( "" )),
+    '<button type="button" class="notAttending">No can do</button></div>' ].join( "" ) ),
 
   initialize: function() {
     this.render();
@@ -16,8 +16,10 @@ window.ProposedPlanView = Backbone.View.extend({
     'click .notAttending': 'notAttending'
   },
 
-  attending: function(e) {
-    e && e.preventDefault();
+  attending: function( e ) {
+    if( e ) {
+       e.preventDefault();
+     }
     //**todo
     //send info to db indicating an invitation acceptance
     
@@ -25,8 +27,10 @@ window.ProposedPlanView = Backbone.View.extend({
     //this.router.navigate('route goes here', { trigger: true })
   },
 
-  notAttending: function(e) {
-    e && e.preventDefault();
+  notAttending: function( e ) {
+    if( e ) {
+       e.preventDefault();
+     }
     //**todo
     //send info to db indicating an invitaion deny
 
@@ -38,4 +42,4 @@ window.ProposedPlanView = Backbone.View.extend({
     this.$el.html( this.template.render( this.model.attributes ));
     return this;
   }
-})
+});
