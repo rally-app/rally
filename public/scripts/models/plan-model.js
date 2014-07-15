@@ -2,7 +2,7 @@ window.PlanModel = Backbone.Model.extend({
   urlRoot: '/plan/',
 
   initialize: function() {
-    this.on( 'sync', function(){
+    this.on( 'sync', function() {
       this.setCurrentRound.call( this );
       this.setOptionIndices.call( this );
     }, this);
