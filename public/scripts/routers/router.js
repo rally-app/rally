@@ -29,9 +29,12 @@ window.Router = Backbone.Router.extend({
   proposedPlan: function( id ) {
     $( 'body' ).empty();
     var planModel = new PlanModel({ id: id });
-    planModel.fetch();
-    var proposedPlanView = new ProposedPlanView({ model: planModel });
-    $( 'body' ).append( proposedPlanView.$el );
+    
+    planModel.fetch().then( function( planModel ){
+      var proposedPlanView = new ProposedPlanView({ model: planModel });
+      $( 'body' ).append( proposedPlanView.$el );
+    });
+
   },
 
   //Renders a view for the first round of voting
@@ -39,25 +42,36 @@ window.Router = Backbone.Router.extend({
   voteOptions: function( id ) {
     $( 'body' ).empty();
     var planModel = new PlanModel({ id: id });
-    planModel.fetch();
-    var voteOptionsView = new VoteOptionsView({ model: planModel });
-    $( 'body' ).append( voteOptionsView.$el );
+
+    planModel.fetch().then( function( planModel ){
+      var voteOptionsView = new VoteOptionsView({ model: planModel });
+      $( 'body' ).append( voteOptionsView.$el );
+    });
+
   },
 
   //Renders the voteComfirmed view to indicate a state of waiting for group decision.
-  voteConfirmed: function() {
+  voteConfirmed: function( id ) {
     $( 'body' ).empty();
-    var planModel = new PlanModel();
-    var voteConfirmedView = new VoteConfirmedView({ model: planModel });
-    $( 'body' ).append( voteConfirmedView.$el );
+    var planModel = new PlanModel({ id: id });
+
+    planModel.fetch().then( function( planModel ){
+      //voteConfirmedView is currently unaffected by planModel, but will eventually utilize it.
+      var voteConfirmedView = new VoteConfirmedView({ model: planModel });
+      $( 'body' ).append( voteConfirmedView.$el );
+    });
+
   },
 
   finalizedPlan: function( id ) {
     $( 'body' ).empty();
     var planModel = new PlanModel({ id: id });
-    planModel.fetch();
-    var finalizedPlanView = new FinalizedPlanView({ model: planModel });
-    $( 'body' ).append( finalizedPlanView.$el );
+
+    planModel.fetch().then( function( planModel ){
+      var finalizedPlanView = new FinalizedPlanView({ model: planModel });
+      $( 'body' ).append( finalizedPlanView.$el );
+    });
+
   }
   
 });
