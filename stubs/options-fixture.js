@@ -6,7 +6,7 @@ module.exports = [
     optionName: "Tipsy Pig",
     votes: 0
   }, {
-    optionName: "KT's"
+    optionName: "KT's",
     votes: 0
   }
 ]
