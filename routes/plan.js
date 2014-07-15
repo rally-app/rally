@@ -25,7 +25,7 @@ router.post( "/", function( req, res ) {
 
   var plan = req.body;
   // add options to plan before save
-  [].push.apply( plan.rounds, options );
+  plan.rounds.push(options);
   
   db.save( "plan", req.body )
   .then( function( plan ) {
