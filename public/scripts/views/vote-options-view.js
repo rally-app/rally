@@ -1,6 +1,6 @@
 var hogan = window.Hogan;
 
-var VoteOptionsView = Backbone.View.extend({
+window.VoteOptionsView = Backbone.View.extend({
 
   tagName: 'div',
 
