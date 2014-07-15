@@ -9,8 +9,9 @@ var router = express.Router();
 var db = require( "../stubs/db" );
 
 router.get( "/:id", function( req, res ) {
-  db.find( req.params.id )
+  db.find( "plan", req.params.id )
   .then( function( plan ){
+    console.log( plan );
     res.send( plan );
   })
   .catch( function( statusCode ) {
@@ -19,7 +20,7 @@ router.get( "/:id", function( req, res ) {
 });
 
 router.post( "/", function( req, res ) {
-  db.save( req.body )
+  db.save( "plan", req.body )
   .then( function( plan ) {
     res.send( plan );
   })

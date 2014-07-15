@@ -14,39 +14,69 @@ var planFixture = require( "./plan-fixture.js" );
 // constants for this file
 var NOT_FOUND = 404;
 var BAD_REQUEST = 400;
+var DELAY = 100;
 
 // variables for this file
 var storage = {
-  // pre-populate in-memory storage with a single plan object.
-  "mvp-plan": planFixture
+  plan: {
+    "mvp-plan": planFixture
+  },
+  vote: {}
+};
+
+var matches = function( against, obj ) {
+  var key;
+  for ( key in against ) {
+    if ( against[ key ] !== obj[ key ] ) {
+      return false;
+    }
+  }
+  return true;
 };
 
 var db = {
   // GET
-  find: function( key ) {
+  find: function( model, id ) {
     return new Bluebird( function( resolve, reject ) {
-      var plan = storage[ key ];
+      var plan = storage[ model ][ id ];
       setTimeout( function(){
         if ( plan ) {
-          resolve( storage[ key ] );
+          resolve( storage[ model ][ id ] );
         } else {
           reject( NOT_FOUND );
         }
-      }, 500 );
+      }, DELAY );
+    });
+  },
+  findWhere: function( model, obj ) {
+    var results = [];
+    var i = 0;
+    var currentModel;
+    while ( i < storage[ model ].length ) {
+      currentModel = storage[ model ][ i ];
+      if ( matches( obj, currentModel ) ) {
+        results.push( currentModel ) ;
+      }
+      i++;
+    }
+    return new Bluebird( function( resolve ) {
+      setTimeout( function() {
+        resolve( results );
+      }, DELAY );
     });
   },
   // POST
-  save: function( obj ) {
+  save: function( model, obj ) {
     return new Bluebird( function( resolve, reject ) {
       if ( !validatePlan( obj ) ) {
         reject( BAD_REQUEST );
       }
       var id = uniqueId();
       obj.id = id;
-      storage[id] = JSON.stringify( obj );
+      storage[ model ][ id ] = JSON.stringify( obj );
       setTimeout( function() {
         resolve( obj );
-      }, 500 );
+      }, DELAY );
     });
   }
 };
