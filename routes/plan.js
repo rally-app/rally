@@ -24,29 +24,15 @@ router.post( "/", function( req, res ) {
   var plan = req.body;
   var query = plan.hostWhat + ' near ' + plan.hostWhere;
 
-  // 1.) Issue a google request.
-  // 2.) When it completes, add the results to this plan's options
-  // 3.) Save the updated plan to the database.
-
-  // add options to plan before save
-  // plan.rounds.push( options );
-
-  // make google request
-  // .then( results ) {
-  //   plan.push( results )
-  //   return plan.save()
-  // }
-  // .then( model ) {
-  //   res.send( model )
-  // }
   places( query )
   .then( function ( recommendations ) {
+    //cerating round object with recommendations and pushing to plan.rounds
     plan.rounds.push( {
       options: recommendations,
       votes: [],
       winner: null
     } );
-    
+    //saving plan to db
     return db.save( 'plan', plan );
   })
   .then( function ( result ) {
@@ -57,15 +43,6 @@ router.post( "/", function( req, res ) {
     res.send( statusCode );
   });
   
-
-  //------------------------
-  // db.save( "plan", req.body )
-  // .then( function( plan ) {
-  //   res.send( plan );
-  // })
-  // .catch( function( statusCode ) {
-  //   res.send( statusCode );
-  // });
 });
 
 module.exports = router;
