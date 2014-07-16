@@ -1,11 +1,11 @@
 var url = require( 'url' );
-var secrets = require( '../secrets.js' );
+var GOOGLE_API_KEY = process.env.GOOGLE_API_KEY || require( '../secrets.js' ).GOOGLE_API_KEY;
 
 module.exports = function( queryString ) {
 
   var query = { 
     query: queryString,
-    key: secrets.GOOGLE_API_KEY
+    key: GOOGLE_API_KEY
   };
 
   var searchUrl = url.parse(url.format({
