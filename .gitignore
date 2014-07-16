@@ -35,3 +35,6 @@ public/bower_components
 test/bower_components/
 
 secrets.js
+
+# Azure
+iisnode.yml
