@@ -2,9 +2,12 @@ window.PlanModel = Backbone.Model.extend({
   urlRoot: '/plan/',
 
   initialize: function() {
+    this.set( 'rounds', []);
     this.on( 'sync', function(){
-      this.setCurrentRound.call( this );
-      this.setOptionIndices.call( this );
+      if ( this.get( 'rounds' ).length ) {
+        this.setCurrentRound();
+        this.setOptionIndices();
+      }
     }, this);
   },
 
@@ -24,9 +27,9 @@ window.PlanModel = Backbone.Model.extend({
 
   setOptionIndices: function() {
     var currentRoundOptions = this.get( 'currentRoundOptions' );
-    for( var i = 0; i < currentRoundOptions.length ){
-      currentRoundOptions[i].set( 'index', i );
-      console.log( 'currentRoundOptions: ', currentRoundOptions[i].optionName, currentRoundOptions[i].index );
+    for( var i = 0; i < currentRoundOptions.length; i++ ){
+      currentRoundOptions[i].index = i;
+      console.log(i, currentRoundOptions); //left in to demonstrate that these methods are being called twice for some reason
     }
   }
 

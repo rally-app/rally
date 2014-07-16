@@ -1,9 +1,10 @@
-"use strict";
+'use strict';
 
-var db = require( "../stubs/db" );
+var db = require( '../stubs/db' );
+var options = require( '../stubs/options-fixture' );
 
 function getPlan( req, res ) {
-  db.find( "plan", req.params.id )
+  db.find( 'plan', req.params.id )
   .then( function( plan ){
     console.log( plan );
     res.send( plan );
@@ -14,7 +15,12 @@ function getPlan( req, res ) {
 }
 
 function postPlan( req, res ) {
-  db.save( "plan", req.body )
+  var plan = req.body;
+
+  // add options to plan before save
+  [].push.apply( plan.options, options );
+  
+  db.save( 'plan', plan )
   .then( function( plan ) {
     res.send( plan );
   })
@@ -25,12 +31,12 @@ function postPlan( req, res ) {
 
 module.exports = [
   {
-    method: "get",
-    url: "/:id",
+    method: 'get',
+    url: '/:id',
     handler: getPlan
   }, {
-    method: "post",
-    url: "/",
+    method: 'post',
+    url: '/',
     handler: postPlan
   }
 ];

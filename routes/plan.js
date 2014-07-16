@@ -7,11 +7,11 @@ var router = express.Router();
 // db.find() and db.save() return promises
 // our real db implementation will have promisified methods
 var db = require( "../stubs/db" );
+var options = require( '../stubs/options-fixture' );
 
 router.get( "/:id", function( req, res ) {
   db.find( "plan", req.params.id )
   .then( function( plan ){
-    console.log( plan );
     res.send( plan );
   })
   .catch( function( statusCode ) {
@@ -20,6 +20,11 @@ router.get( "/:id", function( req, res ) {
 });
 
 router.post( "/", function( req, res ) {
+
+  var plan = req.body;
+  // add options to plan before save
+  plan.rounds.push(options);
+  
   db.save( "plan", req.body )
   .then( function( plan ) {
     res.send( plan );
