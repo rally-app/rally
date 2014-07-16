@@ -1,13 +1,19 @@
-//San Francisco: 37.7577,-122.4376
-// https://map.googleapis.com/maps/api/place/textSearch/json?
-
-var https  = require( 'https' );
-var searchUrl = require( './places-url.js' );
+var getPlaces = require( './get-places.js' );
 
 module.exports = function( queryString ) {
 
-  var queryURL = searchUrl( queryString );
+  var places;
 
-  
+  getPlaces( queryString, function( error, results ) {
+    
+    if( error ) {
+      console.log( 'Error in places.js: ', error );
+    }
+
+    places = JSON.parse(results).results;
+
+    console.log(places);
+
+  });
 
 };
