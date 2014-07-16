@@ -48,22 +48,22 @@ var db = {
       }, DELAY );
     });
   },
-  findWhere: function( modelName, obj ) {
-    var results = [];
-    var i = 0;
-    var currentModel;
-    while ( i < storage[ modelName ].length ) {
-      currentModel = storage[ modelName ][ i ];
-      if ( matches( obj, currentModel ) ) {
-        results.push( currentModel ) ;
+  filter: function( modelName, fn ) {
+    var results = Object.keys( storage[ modelName ] ).reduce( function( acc, key ) {
+      var model = storage[ modelName ][ key ];
+      if ( fn( model, key ) ) {
+        acc.push( model );
       }
-      i++;
-    }
+      return acc;
+    }, [] );
     return new Bluebird( function( resolve ) {
       setTimeout( function() {
         resolve( results );
       }, DELAY );
     });
+  },
+  findWhere: function( modelName, obj ) {
+    return this.filter( modelName, matches.bind( null, obj ) );
   },
   // POST
   save: function( modelName, obj ) {
@@ -79,7 +79,7 @@ var db = {
       }, DELAY );
     });
   },
-
+  // PUT
   update: function( modelName, id, obj ) {
     return new Bluebird( function( resolve, reject ) {
       var success = !!storage[ modelName ][ id ];
