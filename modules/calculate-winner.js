@@ -2,8 +2,8 @@ module.exports = function( plan, roundNumber ) {
 
   var targetRound = plan.rounds[ roundNumber ];
 
-  var weightingAlgorithm = function( i, total ) {
-    return total - i;
+  var weightingAlgorithm = function( prefOrder, totalChoices ) {
+    return totalChoices - prefOrder;
   };
 
   var tally = targetRound.options.map( function( optionObj ) {
@@ -14,14 +14,18 @@ module.exports = function( plan, roundNumber ) {
   });
 
   targetRound.votes.forEach( function( voteObj ) {
-    voteObj.userVotes.forEach( function( choiceIndex, preference ) {
+    voteObj.userVotes.forEach( function( optionIndex, preference ) {
       var weightedVote = weightingAlgorithm( preference, tally.length );
-      tally[ choiceIndex ].votes += weightedVote;
+      tally[ optionIndex ].votes += weightedVote;
     });
   });
 
-  return tally.sort( function( a, b ) {
-    return a.votes - b.votes;
-  })[0];
+  tally.sort( function( a, b ) {
+    return b.votes - a.votes;
+  });
+
+  console.log( tally );
+
+  return tally[0];
 
 };
