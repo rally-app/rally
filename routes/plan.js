@@ -12,8 +12,6 @@ var options = require( '../stubs/options-fixture' );
 router.get( "/:id", function( req, res ) {
   db.find( "plan", req.params.id )
   .then( function( plan ){
-    console.log( "PLAN:" );
-    console.log( plan );
     res.send( plan );
   })
   .catch( function( statusCode ) {
