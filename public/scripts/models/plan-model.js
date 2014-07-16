@@ -29,7 +29,7 @@ window.PlanModel = Backbone.Model.extend({
     var currentRoundOptions = this.get( 'currentRoundOptions' );
     for( var i = 0; i < currentRoundOptions.length; i++ ){
       currentRoundOptions[i].index = i;
-      console.log(i, currentRoundOptions);
+      console.log(i, currentRoundOptions); //left in to demonstrate that these methods are being called twice for some reason
     }
   }
 
