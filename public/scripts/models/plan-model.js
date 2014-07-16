@@ -28,8 +28,8 @@ window.PlanModel = Backbone.Model.extend({
   setOptionIndices: function() {
     var currentRoundOptions = this.get( 'currentRoundOptions' );
     for( var i = 0; i < currentRoundOptions.length; i++ ){
-      currentRoundOptions[i].set( 'index', i );
-      console.log( 'currentRoundOptions: ', currentRoundOptions[i].optionName, currentRoundOptions[i].index );
+      currentRoundOptions[i].index = i;
+      console.log(i, currentRoundOptions);
     }
   }
 
