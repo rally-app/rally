@@ -5,7 +5,7 @@ module.exports = function( queryString, callback ) {
 
   https.get( searchUrl( queryString ), function( response ) {
     
-    var string;
+    var string = '';
     
     response.on( 'data', function( chunk ) {
       string += chunk;
