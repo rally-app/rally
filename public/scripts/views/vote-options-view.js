@@ -39,8 +39,7 @@ window.VoteOptionsView = Backbone.View.extend({
     'click .priority': function(event){
       event.preventDefault();
       $(event.currentTarget).attr( 'disabled', 'disabled' );
-      console.log(event.currentTarget);
-      this.controller.setPriority.call( this, $('.priority').indexOf(event.currentTarget.data.index) );
+      this.controller.setPriority.call( this, Number(event.currentTarget.dataset.index) );
     },
     'click #submitVote': function(event){
       event.preventDefault();
