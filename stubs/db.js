@@ -41,7 +41,7 @@ var db = {
       var plan = storage[ modelName ][ id ];
       setTimeout( function(){
         if ( plan ) {
-          resolve( storage[ modelName ][ id ] );
+          resolve( JSON.parse( storage[ modelName ][ id ] ) );
         } else {
           reject( NOT_FOUND );
         }
@@ -85,12 +85,12 @@ var db = {
       var success = !!storage[ modelName ][ id ];
       setTimeout( function() {
         if ( success ) {
-          storage[ modelName ][ id ] = obj;
+          storage[ modelName ][ id ] = JSON.stringify( obj );
           resolve( obj );
         } else {
           reject( NOT_FOUND );
         }
-      });
+      }, DELAY );
     });
   }
 };
