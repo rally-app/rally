@@ -36,24 +36,24 @@ var matches = function( against, obj ) {
 
 var db = {
   // GET
-  find: function( model, id ) {
+  find: function( modelName, id ) {
     return new Bluebird( function( resolve, reject ) {
-      var plan = storage[ model ][ id ];
+      var plan = storage[ modelName ][ id ];
       setTimeout( function(){
         if ( plan ) {
-          resolve( storage[ model ][ id ] );
+          resolve( storage[ modelName ][ id ] );
         } else {
           reject( NOT_FOUND );
         }
       }, DELAY );
     });
   },
-  findWhere: function( model, obj ) {
+  findWhere: function( modelName, obj ) {
     var results = [];
     var i = 0;
     var currentModel;
-    while ( i < storage[ model ].length ) {
-      currentModel = storage[ model ][ i ];
+    while ( i < storage[ modelName ].length ) {
+      currentModel = storage[ modelName ][ i ];
       if ( matches( obj, currentModel ) ) {
         results.push( currentModel ) ;
       }
@@ -66,17 +66,31 @@ var db = {
     });
   },
   // POST
-  save: function( model, obj ) {
+  save: function( modelName, obj ) {
     return new Bluebird( function( resolve, reject ) {
       if ( !validatePlan( obj ) ) {
         reject( BAD_REQUEST );
       }
       var id = uniqueId();
       obj.id = id;
-      storage[ model ][ id ] = JSON.stringify( obj );
+      storage[ modelName ][ id ] = JSON.stringify( obj );
       setTimeout( function() {
         resolve( obj );
       }, DELAY );
+    });
+  },
+
+  update: function( modelName, id, obj ) {
+    return new Bluebird( function( resolve, reject ) {
+      var success = !!storage[ modelName ][ id ];
+      setTimeout( function() {
+        if ( success ) {
+          storage[ modelName ][ id ] = obj;
+          resolve( obj );
+        } else {
+          reject( NOT_FOUND );
+        }
+      });
     });
   }
 };

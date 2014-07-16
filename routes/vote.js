@@ -7,28 +7,25 @@ var db = require( '../stubs/db' );
 var voteAlgorithm = require( '../stubs/vote-algorithm' );
 
 router.post( '/', function( req, res ) {
-  var postedVote = req.body;
-  db.save( 'vote', postedVote )
-  .then( function( vote ) {
+  var vote;
+  // save a record of the vote, then find the matching plan
+  db.save( 'vote', req.body )
+  .then( function( savedVote ) {
+    vote = savedVote;
     return db.find( 'plan', vote.planId );
   })
+  // add the vote to the plan and update the plan in the database
   .then( function( plan ) {
-    // get the round from the plan object
-    var currentRound = plan.rounds[ postedVote.currentRound ]
-    // increment the vote count
-    currentRound.totalVotes += 1;
-    // check if all guests have voted
-    if ( currentRound.totalVotes === plan.hostWho.length ) {
-      // find votes that have planId === plan.id
-      db.findWhere( "vote", { planId: plan.id }).then( function( votes ) {
-        // get the winning option's index
-        var winnerIndex = voteAlgorithm( plan, postedVote.currentRound, votes );
-        res.send( plan.options[ winnerIndex ] );
-      });
-    } else {
-      res.send( "Vote received. Waiting for more votes." );
-    }
+    plan.rounds[ vote.currentRound ].votes.push( vote );
+    return db.update( 'plan', plan );
   })
+  // respond with the updated plan
+  .then( function( plan ) {
+    console.log( "VOTE:" );
+    console.log( vote );
+    res.send( plan );
+  })
+  // failed somewhere, send back the status code
   .catch( function( statusCode ) {
     res.send( statusCode );
   });
