@@ -24,8 +24,6 @@ module.exports = function( plan, roundNumber ) {
     return b.votes - a.votes;
   });
 
-  console.log( tally );
-
   return tally[0];
 
 };
