@@ -9,7 +9,7 @@ window.VoteOptionsView = Backbone.View.extend({
   template: hogan.compile( ['<span id="affirmation">Great! Where to?</span>',
               '<div id="options">',
                 '{{#currentRoundOptions}}',
-                '<input class="priority" type="button" value="{{optionName}}" data-index="{{index}}">',
+                '<input class="priority" type="button" value="{{name}}" data-index="{{index}}">',
                   //'<span id="rec1-title">{{title}}</span>', //modify when decide on final recommendation properties to display
                   //'<span id="rec1-description"></span>',
                   //'<span id="rec1-cost"></span><span id="rec1-rating"></span>',
