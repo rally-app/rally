@@ -33,3 +33,5 @@ test/temp
 public/bower_components
 .tmp
 test/bower_components/
+
+secrets.js
