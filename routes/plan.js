@@ -20,10 +20,23 @@ router.get( "/:id", function( req, res ) {
 });
 
 router.post( "/", function( req, res ) {
-
   var plan = req.body;
+
+  // 1.) Issue a google request.
+  // 2.) When it completes, add the results to this plan's options
+  // 3.) Save the updated plan to the database.
+
   // add options to plan before save
-  plan.rounds.push(options);
+  plan.rounds.push( options );
+
+  // make google request
+  // .then( results ) {
+  //   plan.push( results )
+  //   return plan.save()
+  // }
+  // .then( model ) {
+  //   res.send( model )
+  // }
   
   db.save( "plan", req.body )
   .then( function( plan ) {

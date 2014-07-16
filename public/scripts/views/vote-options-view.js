@@ -68,7 +68,9 @@ window.VoteOptionsView = Backbone.View.extend({
       var context = this;
       this._voteModel.save()
       .then( function( response ) {
-        router.navigate( '/' + context.model.get( 'id' ) + '/round/' + context.model.get( 'currentRoundNum' ) + '/voted', { trigger: true } );
+        console.log('server response after submitVote: ');
+        console.log( JSON.stringify( response ) );
+        router.navigate( '/' + this.model.get( 'id' ) + '/round/' + this.model.get( 'currentRoundNum' ) + '/voted', { trigger: true } );
       });
     }
 
