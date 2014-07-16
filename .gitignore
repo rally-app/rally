@@ -37,4 +37,4 @@ test/bower_components/
 secrets.js
 
 # Azure
-iisnode.yml
+azure.err
