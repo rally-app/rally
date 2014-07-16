@@ -2,18 +2,16 @@ var getPlaces = require( './get-places.js' );
 
 module.exports = function( queryString ) {
 
-  var places;
+  return getPlaces( queryString ).then( function( results ) {
 
-  getPlaces( queryString, function( error, results ) {
-    
-    if( error ) {
-      console.log( 'Error in places.js: ', error );
+    var places = JSON.parse(results).results;
+    var options = [];
+
+    for( var i = 0; i < 3; i++ ) {
+      options.push( places[i] );
     }
 
-    places = JSON.parse(results).results;
-
-    console.log(places);
-
+    return options;
   });
 
 };
