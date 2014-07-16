@@ -43,6 +43,7 @@ window.VoteOptionsView = Backbone.View.extend({
     },
     'click #submitVote': function(event){
       event.preventDefault();
+      $(event.currentTarget).attr( 'disabled', 'disabled' );
       this.controller.submitVote.call( this );
     }
   },
@@ -64,6 +65,7 @@ window.VoteOptionsView = Backbone.View.extend({
     },
 
     submitVote: function(){
+      var context = this;
       this._voteModel.save()
       .then( function( response ) {
         console.log('server response after submitVote: ');
