@@ -4,6 +4,7 @@ var express = require( 'express' );
 var router = express.Router();
 
 var db = require( '../stubs/db' );
+var closeRound = require( )
 var voteAlgorithm = require( '../stubs/vote-algorithm' );
 
 router.post( '/', function( req, res ) {
@@ -11,7 +12,6 @@ router.post( '/', function( req, res ) {
   // save a record of the vote, then find the matching plan
   db.save( 'vote', req.body )
   .then( function( savedVote ) {
-    console.log( "after vote save" )
     vote = savedVote;
     return db.find( 'plan', vote.planId );
   })
@@ -20,9 +20,12 @@ router.post( '/', function( req, res ) {
     plan.rounds[ vote.currentRoundNum - 1 ].votes.push( vote );
     return db.update( 'plan', plan.id, plan );
   })
+  // check if this round is done and close it if so.
   // respond with the updated plan
   .then( function( plan ) {
-    console.log( "after plan update" );
+    if ( plan.rounds[ vote.currentRoundNum - 1 ].length === plan.hostWho.length + 1 ) {
+      closeRound( plan, vote.currentRoundNum - 1 );
+    }
     res.send( plan );
   })
   // failed somewhere, send back the status code

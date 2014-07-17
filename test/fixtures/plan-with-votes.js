@@ -7,7 +7,7 @@ module.exports = {
         {"optionName":"KT's"}
       ],
       "votes":[
-        {"planId":"xpp5m0oddmhlrf6r","userVotes":[0,1,2], "currentRoundNum":1, "id":"pho38jmtz73w61or"},
+        {"planId":"xpp5m0oddmhlrf6r","userVotes":[0,1,2],"currentRoundNum":1,"id":"pho38jmtz73w61or"},
         {"planId":"xpp5m0oddmhlrf6r","userVotes":[2,1,0],"currentRoundNum":1,"id":"vuxxbojlx72e29"},
         {"planId":"xpp5m0oddmhlrf6r","userVotes":[0,1,2],"currentRoundNum":1,"id":"mlfarpzthww89f6r"}
         // {"planId":"xpp5m0oddmhlrf6r","userVotes":[2,0,1],"currentRoundNum":1,"id":"9cmvmyxfufp0t3xr"},
@@ -24,10 +24,10 @@ module.exports = {
       "winner":null
     }
   ],
-  "hostWho":["Nick","Jared"],
+  "hostWho":["dhruvarora@berkeley.edu","nhbottomley@gmail.com"],
   "hostName":"n",
   "hostWhat":"drink",
   "hostWhere":"d",
   "hostWhen":"19:00",
-  "id":"xpp5m0oddmhlrf6r"
+  "id":"y1586zxcujbawcdi"
 } ;
