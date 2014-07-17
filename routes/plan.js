@@ -10,6 +10,7 @@ var db = require( "../stubs/db" );
 // var options = require( '../stubs/options-fixture' );
 var places = require( '../modules/places.js' );
 
+//any string after /plan/ in the incoming URL request becomes a property on req.params by that same name
 router.get( "/:id", function( req, res ) {
   db.find( "plan", req.params.id )
   .then( function( plan ){
@@ -22,11 +23,12 @@ router.get( "/:id", function( req, res ) {
 
 router.post( "/", function( req, res ) {
   var plan = req.body;
+  //concatenate google places search -- could add additional translation between user intent and google search later
   var query = plan.hostWhat + ' near ' + plan.hostWhere;
 
   places( query )
   .then( function ( recommendations ) {
-    //cerating round object with recommendations and pushing to plan.rounds
+    //creating round object with recommendations and pushing to plan.rounds
     plan.rounds.push( {
       options: recommendations,
       votes: [],
