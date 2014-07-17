@@ -51,7 +51,8 @@ window.BuildPlanView = Backbone.View.extend({
     this.model.set( 'hostWhere', this.$el.find( '[name="hostWhere"]' ).val() );
     this.model.set( 'hostWhen',  this.makeWhen( when ) );
     this.model.set( 'finalVoteEnd',  this.makeEnd( end ) );
-
+    this.model.set( 'attending', 1 );
+    
     //Saves the planModel host values to the db then navigate to the first round vote page.
     var self = this;
     this.model.save().then( function( response ) {
