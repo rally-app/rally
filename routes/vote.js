@@ -4,7 +4,7 @@ var express = require( 'express' );
 var router = express.Router();
 
 var db = require( '../stubs/db' );
-var closeRound = require( )
+var closeRound = require( '../modules/close-round.js' );
 var voteAlgorithm = require( '../stubs/vote-algorithm' );
 
 router.post( '/', function( req, res ) {
@@ -17,8 +17,19 @@ router.post( '/', function( req, res ) {
   })
   // add the vote to the plan and update the plan in the database
   .then( function( plan ) {
-    plan.rounds[ vote.currentRoundNum - 1 ].votes.push( vote );
-    return db.update( 'plan', plan.id, plan );
+    var currentRound = vote.currentRoundNum - 1;
+    // Check if the session lastVote is the current round
+    if( req.session.lastVote === currentRound ) {
+      // return the plan without adding the vote if last vote is current round
+      console.log( 'No Vote' );
+      return plan;
+    } else {
+      // set the session last vote equal to the current round
+      req.session.lastVote = currentRound;
+      // add the vote tp the plan and update the plan in the database
+      plan.rounds[ currentRound ].votes.push( vote );
+      return db.update( 'plan', plan.id, plan );
+    }
   })
   // check if this round is done and close it if so.
   // respond with the updated plan
