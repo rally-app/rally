@@ -20,11 +20,12 @@ window.ProposedPlanView = Backbone.View.extend({
     if( e ) {
        e.preventDefault();
      }
-    //**todo
-    //send info to db indicating an invitation acceptance
-    
-    //this will be the route for the first vote view
-    //this.router.navigate('route goes here', { trigger: true })
+
+    //save the model then navigate to the first round of voting
+    var self = this;
+    this.model.save().then( function( response ) {
+      router.navigate( '/' + self.model.get( 'id' ) + '/round/' + self.model.get( 'currentRoundNum' ), { trigger: true } );
+    });
   },
 
   notAttending: function( e ) {
