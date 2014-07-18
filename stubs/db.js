@@ -1,15 +1,16 @@
-"use strict";
+'use strict';
 
 // 'require' calls to coref modules
 // none
 
 // require calls to installed modules
-var Bluebird = require( "bluebird" );
+var Bluebird = require( 'bluebird' );
 
 // require calls to scripts
-var validatePlan = require( "./validate-plan" );
-var uniqueId = require( "./uid.js" );
-var planFixture = require( "./plan-fixture.js" );
+var validatePlan = require( './validate-plan' );
+var uniqueId = require( './uid.js' );
+var planFixture = require( './plan-fixture.js' );
+var validateDeadline = require('./validate-deadline');
 
 // constants for this file
 var NOT_FOUND = 404;
@@ -19,7 +20,7 @@ var DELAY = 100;
 // variables for this file
 var storage = {
   plan: {
-    "mvp-plan": planFixture
+    'mvp-plan': planFixture
   },
   vote: {}
 };
@@ -92,6 +93,24 @@ var db = {
         }
       }, DELAY );
     });
+  },
+  //for pushing deadlines to database
+  addDeadline: function( modelName, time, obj ) {
+    return new Bluebird( function( resolve, reject ) {
+      setTimeout( function() {
+        if ( !validateDeadline( obj ) ) {
+          reject( BAD_REQUEST );
+        }else{
+          if( !storage[ modelName ][ time ] ) storage[ modelName ][ time ] = [];
+          storage[ modelName ][ time ].push( JSON.stringify( obj ) );
+          console.log('added deadline to storage. storage: ', storage);
+          resolve( obj );
+        }
+      }, DELAY );
+    });
+  },
+  deleteDeadline: function( modelName, time ) {
+    console.log('nothing here yet');
   }
 };
 
