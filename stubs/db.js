@@ -22,7 +22,8 @@ var storage = {
   plan: {
     'mvp-plan': planFixture
   },
-  vote: {}
+  vote: {},
+  deadline: {}
 };
 
 var matches = function( against, obj ) {
@@ -96,11 +97,14 @@ var db = {
   },
   //for pushing deadlines to database
   addDeadline: function( modelName, time, obj ) {
+    console.log('inside addDeadline');
     return new Bluebird( function( resolve, reject ) {
       setTimeout( function() {
         if ( !validateDeadline( obj ) ) {
+          console.log('bad request!');
           reject( BAD_REQUEST );
         }else{
+          console.log('storing deadline to db!');
           if( !storage[ modelName ][ time ] ) storage[ modelName ][ time ] = [];
           storage[ modelName ][ time ].push( JSON.stringify( obj ) );
           console.log('added deadline to storage. storage: ', storage);

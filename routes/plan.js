@@ -46,10 +46,9 @@ router.post( '/', function( req, res ) {
     return db.save( 'plan', plan );
   })
   .then( function ( result ) {
-    // deadline.registerDeadlinesInDb( result );
-
     console.log( result );
     res.send( result );
+    deadline.registerDeadlinesInDb( result );
   })
   .catch( function( statusCode ) {
     res.send( statusCode );

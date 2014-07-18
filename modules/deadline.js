@@ -1,3 +1,5 @@
+var db = require( '../stubs/db' );
+
 var addRoundDeadlines = function( plan ) {
   //add round.deadline per round (in milliseconds since Unix epoch) based on rounds.length
   var createdAtMillis = new Date( plan.createdAt ).valueOf();
@@ -11,14 +13,15 @@ var addRoundDeadlines = function( plan ) {
   });
 };
 
+//add round's deadline to time table in db with associated plan id and round number
 var registerDeadlinesInDb = function( plan ) {
-  //add round's deadline to time table in db with associated plan id and round number
+  var deadlineObj = {
+    id: plan.id,
+  }
   plan.rounds.forEach( function( round, roundNum ){
-    var deadlineObj = {
-      id: plan.id,
-      roundNum: roundNum + 1
-    }
-    db.addDeadline( 'time', round.deadline, deadlineObj )
+    deadlineObj.roundNum = roundNum + 1;
+    console.log('registerDeadlinesInDb: ', 'deadline', round.deadline, deadlineObj);
+    db.addDeadline( 'deadline', round.deadline, deadlineObj )
     .then( function( plan ){
       console.log('added to db: ', plan);
     })
