@@ -62,7 +62,11 @@ router.post( '/', function( req, res ) {
 router.put( "/:id", function( req, res ) {
   // Check if session has already rsvped -> do nothing if yes
   if( req.session.rsvp === 1 ) {
-    res.send( req.body );
+    // return an object with expired set to true
+    res.send({
+      expired: true 
+    });
+    // res.send( req.body );
   } else {
     // Set session RSVP to true
     req.session.rsvp = 1;

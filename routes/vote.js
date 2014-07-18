@@ -20,8 +20,11 @@ router.post( '/', function( req, res ) {
     var currentRound = vote.currentRoundNum - 1;
     // Check if the session lastVote is the current round
     if( req.session.lastVote === currentRound ) {
-      // return the plan without adding the vote if last vote is current round
-      return plan;
+      // return an object with expired set to true
+      res.send({
+        expired: true 
+      });
+      // return plan;
     } else {
       // set the session last vote equal to the current round
       req.session.lastVote = currentRound;

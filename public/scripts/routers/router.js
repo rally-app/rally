@@ -5,6 +5,7 @@ var ProposedPlanView = window.ProposedPlanView;
 var VoteOptionsView = window.VoteOptionsView;
 var VoteConfirmedView = window.VoteConfirmedView;
 var FinalizedPlanView = window.FinalizedPlanView;
+var RoundExpiredView = window.RoundExpiredView;
 
 
 window.Router = Backbone.Router.extend({
@@ -14,6 +15,7 @@ window.Router = Backbone.Router.extend({
     ":id": "proposedPlan",
     ":id/round/:roundNum": "voteOptions",
     ":id/round/:roundNum/voted": "voteConfirmed",
+    ":id/round/:roundNum/expired": "roundExpired",
     ":id/result": "finalizedPlan"
   },
 
@@ -61,6 +63,16 @@ window.Router = Backbone.Router.extend({
       $( 'body' ).append( voteConfirmedView.$el );
     });
 
+  },
+
+  roundExpired: function( id ) {
+    $( 'body' ).empty();
+    var planModel = new PlanModel({ id: id });
+
+    planModel.fetch().then( function() {
+      var roundExpiredView = new RoundExpiredView({ model: planModel });
+      $( 'body' ).append( roundExpiredView.$el );
+    })
   },
 
   finalizedPlan: function( id ) {

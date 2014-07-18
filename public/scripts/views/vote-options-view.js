@@ -68,9 +68,11 @@ window.VoteOptionsView = Backbone.View.extend({
       var context = this;
       this._voteModel.save()
       .then( function( response ) {
-        console.log('server response after submitVote: ');
-        console.log( JSON.stringify( response ) );
-        router.navigate( '/' + context.model.get( 'id' ) + '/round/' + context.model.get( 'currentRoundNum' ) + '/voted', { trigger: true } );
+        if( response.expired === true ) {
+          router.navigate( '/' + context.model.get( 'id' ) + '/round/' + context.model.get( 'currentRoundNum' ) + '/expired', { trigger: true } );
+        } else {
+          router.navigate( '/' + context.model.get( 'id' ) + '/round/' + context.model.get( 'currentRoundNum' ) + '/voted', { trigger: true } );
+        }
       });
 
     }
