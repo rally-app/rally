@@ -33,11 +33,31 @@ window.BuildPlanView = Backbone.View.extend({
 
   initialize: function() {
     this.render();
+    // save references to the inputs once so we don't have to perform mutliple $() selections
+    this._$hostWhen = this.$el.find( '[name="hostWhen"]' );
+    this._$hostWho = this.$el.find( '[name="hostWho"]' );
+    this._$hostWhat = this.$el.find( '[name="hostWhat"]' );
+    this._$hostWhere = this.$el.find( '[name="hostWhere"]' );
+    this._$hostName = this.$el.find( '[name="hostName"'] );
+    this._$finalVoteEnd = this.$el.find( '[name="finalVoteEnd"]' );
   },
 
   events: {
     'click .createEvent': 'createEvent',
     'click .clear': 'render'
+  },
+
+  getValues: function() {
+    return {
+      hostWho: this._$hostWho.val(),
+      hostName: this._$hostName.val(),
+      hostWhat: this._$hostWhat.val(),
+      hostWhere: this._$hostWhere.val(),
+      hostWhen: this._$hostWhen.val(),
+      finalVoteEnd: this._$finalVoteEnd.val()
+    };
+
+
   },
 
   createEvent: function( e ) {
@@ -70,11 +90,9 @@ window.BuildPlanView = Backbone.View.extend({
     var now = moment();
     var hr = time.slice( 0, 2 );
     var min = time.slice( 3, 5 );
-
-    now.hours(hr);
-    now.minutes(min);
-    now.seconds(00);
-
+    now.hours( hr );
+    now.minutes( min );
+    now.seconds( 00 );
     return now;
   },
 
