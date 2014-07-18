@@ -38,13 +38,35 @@ router.post( "/", function( req, res ) {
     return db.save( 'plan', plan );
   })
   .then( function ( result ) {
-    console.log( result );
     res.send( result );
   })
   .catch( function( statusCode ) {
     res.send( statusCode );
   });
   
+});
+
+router.put( "/:id", function( req, res ) {
+  // Check if session has already rsvped -> do nothing if yes
+  if( req.session.rsvp === 1 ) {
+    res.send( req.body );
+  } else {
+    // Set session RSVP to true
+    req.session.rsvp = 1;
+    // Update the plan with an additional attending
+    db.find( 'plan', req.params.id )
+    .then( function( plan ) {
+      plan.attending = plan.attending + 1;
+      return db.update( 'plan', plan.id, plan )
+    })
+    .then( function( plan ) {
+      res.send( plan );
+    })
+    .catch( function( statusCode ) {
+      res.send( statusCode );
+    });
+  }
+
 });
 
 module.exports = router;
