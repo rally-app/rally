@@ -23,7 +23,7 @@ var storage = {
     'mvp-plan': planFixture
   },
   vote: {},
-  deadline: {}
+  deadlines: {}
 };
 
 var matches = function( against, obj ) {
@@ -96,25 +96,31 @@ var db = {
     });
   },
   //for pushing deadlines to database
-  addDeadline: function( modelName, time, obj ) {
-    console.log('inside addDeadline');
+  addDeadline: function( deadline, obj ) {
     return new Bluebird( function( resolve, reject ) {
       setTimeout( function() {
         if ( !validateDeadline( obj ) ) {
-          console.log('bad request!');
           reject( BAD_REQUEST );
         }else{
-          console.log('storing deadline to db!');
-          if( !storage[ modelName ][ time ] ) storage[ modelName ][ time ] = [];
-          storage[ modelName ][ time ].push( JSON.stringify( obj ) );
-          console.log('added deadline to storage. storage: ', storage);
+          if ( !storage.deadlines[ deadline ] ) storage.deadlines[ deadline ] = [];
+          storage.deadlines[ deadline ].push( JSON.stringify( obj ) );
           resolve( obj );
         }
       }, DELAY );
     });
   },
-  deleteDeadline: function( modelName, time ) {
-    console.log('nothing here yet');
+  expireDeadlines: function( deadline ) {
+    return new Bluebird( function( resolve, reject ) { //what to reject on?
+      setTimeout( function() {
+        var deadlinesToExpire = storage.deadlines[ deadline ];
+        if ( !deadlinesToExpire ){
+          resolve( [] );
+        } else {
+          delete storage.deadlines[ deadline ];
+          resolve( deadlinesToExpire );
+        }
+      }, DELAY );
+    });
   }
 };
 
