@@ -34,7 +34,7 @@ var send = function( msg ) {
 
 // adapted from Crockford's supplant. Probably should use real template engine eventually.
 var interpolate = function( str, obj ) {
-  return str.replace( /{([^{}]*)}/g, function (a, b) {
+  return str.replace( /{([^{}]*)}/g, function ( a, b ) {
       var r = obj[b];
       return typeof r === 'string' || typeof r === 'number' ? r : a;
     }
@@ -62,7 +62,6 @@ var generateEmails = function( plan, round ) {
   });
 };
 
-// return an array of promises
 module.exports = function( plan, round ) {
-  return Bluebird.join.apply( null, generateEmails( plan, round ).map( send ) );
+  return Bluebird.all( generateEmails( plan, round ).map( send ) );
 };
