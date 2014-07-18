@@ -2,6 +2,8 @@
 
 var express = require( 'express' );
 var router = express.Router();
+var sendEmails = require( '../modules/send-emails' );
+
 
 // stub for real db obj/methods
 // db.find() and db.save() return promises
@@ -46,6 +48,8 @@ router.post( '/', function( req, res ) {
     return db.save( 'plan', plan );
   })
   .then( function ( result ) {
+    // Sends emails each hostWho for first round voting
+    sendEmails( result, 0 );
     res.send( result );
     deadline.registerDeadlinesInDb( result );
   })
