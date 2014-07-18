@@ -68,8 +68,8 @@ window.Router = Backbone.Router.extend({
     var planModel = new PlanModel({ id: id });
 
     planModel.fetch().then( function(){
-      var finalizedPlanView = new FinalizedPlanView({ model: planModel });
-      $( 'body' ).append( finalizedPlanView.$el );
+      var finalPlanView = new FinalPlanView({ model: planModel });
+      $( 'body' ).append( finalPlanView.$el );
     });
 
   }
