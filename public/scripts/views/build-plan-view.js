@@ -5,15 +5,20 @@ window.BuildPlanView = Backbone.View.extend({
 
   template: hogan.compile( [ '<div class="buildPlan">',
     '<p>',
-      '<input type="text" name="hostName" placeholder="Full Name"></input> want to ',
+      'My name is <input type="text" name="hostName" placeholder="Full Name" value="Nicholas Henry">.',
+    '</p>',
+    '<p>',
+      'I want to ',
       '<select name="hostWhat">',
         '<option value="bars">drink</option>',
         '<option value="restaurants">eat</option>',
       '</select> near ',
-      '<input type="text" name="hostWhere" placeholder="location"></input> at ',
-      '<input type="time" name="hostWhen"></input> with ',
-      '<input type="text" name="hostWho" placeholder="these people" value="Nick, Jared"></input>.',
-      'Let\'s figure this out in ',
+      '<input type="text" name="hostWhere" placeholder="location" value="the Presidio"> at ',
+      '<input type="time" name="hostWhen" value="21:30"> with ',
+      '<input type="text" name="hostWho" placeholder="emails of friends" value="Mike,Jared">.',
+    '</p>',
+    '<p>',
+      'Let\'s finalize this rally within the next ',
       '<select name="finalVoteEnd">',
         '<option value="5">5</option>',
         '<option value="15">15</option>',
@@ -21,7 +26,7 @@ window.BuildPlanView = Backbone.View.extend({
       '</select>',
       ' minutes.',
     '</p>',
-    '<button type="button" class="createEvent">Check Mark Image</button>',
+    '<button type="button" class="createEvent">Checkmark Image</button>',
     '<button type="reset" class="clear">Clear</button></div>' ].join("") ),
 
 
@@ -49,8 +54,9 @@ window.BuildPlanView = Backbone.View.extend({
     this.model.set( 'hostName', this.$el.find( '[name="hostName"]' ).val() );
     this.model.set( 'hostWhat', this.$el.find( '[name="hostWhat"]' ).val() );
     this.model.set( 'hostWhere', this.$el.find( '[name="hostWhere"]' ).val() );
-    this.model.set( 'hostWhen',  this.makeWhen( when ) );
-    this.model.set( 'finalVoteEnd',  this.makeEnd( end ) );
+    this.model.set( 'hostWhen', this.makeWhen( when ) );
+    this.model.set( 'createdAt', moment().startOf( 'minute' ).add( 'minutes', 1 ) ); //round createdAt up to nearest minute for easy db use
+    this.model.set( 'finalVoteEnd', this.makeEnd( end ) );
     this.model.set( 'attending', 1 );
     
     //Saves the planModel host values to the db then navigate to the first round vote page.
@@ -73,7 +79,7 @@ window.BuildPlanView = Backbone.View.extend({
   },
 
   makeEnd: function( minutes ) {
-    var now = moment();
+    var now = moment().startOf( 'minute' ).add( 'minutes', 1 ); //round to nearest minute and add 1 to remain relative to createdAt
     now.add( 'minutes', minutes );
 
     return now;

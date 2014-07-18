@@ -11,6 +11,8 @@ var methodOverride = require( 'method-override' );
 var planRoute = require( './routes/plan' );
 var voteRoute = require( './routes/vote' );
 
+var deadline = require( './modules/deadline' );
+
 var app = express();
 
 // view engine setup
@@ -68,5 +70,7 @@ app.use(function(err, req, res, next) {
   });
 });
 
+//create interval of checking database for expired round deadlines
+deadline.expireDeadlines();
 
 module.exports = app;

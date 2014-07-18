@@ -1,15 +1,16 @@
-"use strict";
+'use strict';
 
 // 'require' calls to coref modules
 // none
 
 // require calls to installed modules
-var Bluebird = require( "bluebird" );
+var Bluebird = require( 'bluebird' );
 
 // require calls to scripts
-var validatePlan = require( "./validate-plan" );
-var uniqueId = require( "./uid.js" );
-var planFixture = require( "./plan-fixture.js" );
+var validatePlan = require( './validate-plan' );
+var uniqueId = require( './uid.js' );
+var planFixture = require( './plan-fixture.js' );
+var validateDeadline = require('./validate-deadline');
 
 // constants for this file
 var NOT_FOUND = 404;
@@ -19,9 +20,10 @@ var DELAY = 100;
 // variables for this file
 var storage = {
   plan: {
-    "mvp-plan": planFixture
+    'mvp-plan': planFixture
   },
-  vote: {}
+  vote: {},
+  deadlines: {}
 };
 
 var matches = function( against, obj ) {
@@ -89,6 +91,33 @@ var db = {
           resolve( obj );
         } else {
           reject( NOT_FOUND );
+        }
+      }, DELAY );
+    });
+  },
+  //for pushing deadlines to database
+  addDeadline: function( deadline, obj ) {
+    return new Bluebird( function( resolve, reject ) {
+      setTimeout( function() {
+        if ( !validateDeadline( obj ) ) {
+          reject( BAD_REQUEST );
+        }else{
+          if ( !storage.deadlines[ deadline ] ) storage.deadlines[ deadline ] = [];
+          storage.deadlines[ deadline ].push( JSON.stringify( obj ) );
+          resolve( obj );
+        }
+      }, DELAY );
+    });
+  },
+  expireDeadlines: function( deadline ) {
+    return new Bluebird( function( resolve, reject ) { //what to reject on?
+      setTimeout( function() {
+        var deadlinesToExpire = storage.deadlines[ deadline ];
+        if ( !deadlinesToExpire ){
+          resolve( [] );
+        } else {
+          delete storage.deadlines[ deadline ];
+          resolve( deadlinesToExpire );
         }
       }, DELAY );
     });
