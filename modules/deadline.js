@@ -45,7 +45,7 @@ var expireDeadlines = function( threshold ) {
     deadlinesToExpire.forEach( function( deadlineObj ) {
       db.find( 'plan', deadlineObj.id )
       .then( function( plan ) {
-        closeRound( plan.id, deadlineObj.roundNum );
+        closeRound( plan, deadlineObj.roundNum );
       })
       .catch( function( err ) {
         console.log( 'failed to retrieve plan', deadlineObj.id, err );
