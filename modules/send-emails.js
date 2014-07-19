@@ -42,7 +42,7 @@ var interpolate = function( str, obj ) {
 };
 
 var generateEmails = function( plan, round ) {
-  var template = ( round === plan.rounds.length - 1 ? 'round' : 'final' );
+  var template = ( round === plan.rounds.length ? 'final' : 'round' );
   var info = {
     link: ( function() {
       if ( template === 'round' ) {

@@ -19,10 +19,13 @@ window.PlanModel = Backbone.Model.extend({
           return i;
         }
       }
-      return -1;
+      // return -1;
+      return ( rounds.length - 1 );
     })();
     this.set( 'currentRoundNum', index + 1 );
-    this.set( 'currentRoundOptions', rounds[ index ].options );
+    if( rounds[ index ].options ){
+      this.set( 'currentRoundOptions', rounds[ index ].options );
+    }
   },
 
   setOptionIndices: function() {
