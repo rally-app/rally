@@ -14,7 +14,6 @@ window.FinalPlanView = Backbone.View.extend({
 
 
   initialize: function(){
-    console.log( this.model );
     this.render();
   },
 
@@ -28,8 +27,6 @@ window.FinalPlanView = Backbone.View.extend({
       winner: this.model.get( 'rounds' )[0].winner.option,
       hostWhen: moment( this.model.get( 'hostWhen' ) ).calendar()
     }
-
-    console.log( this.model );
 
     this.$el.html( this.template.render( templateAttributes ) );
     return this;
