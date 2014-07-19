@@ -105,7 +105,7 @@ window.BuildPlanView = Backbone.View.extend({
     var domTree = $( this.template.render( this.model.attributes) );
 
     // cache refs to stuff we need here
-    // not gonna be able to do it in @initialize() bc new elements get rendered each time
+    // not gonna be able to do it in @initialize bc new elements get rendered each time
     this._inputs = domTree.find( "input[type='text']" );
     this._selects = domTree.find( "select" );
     this._$hostWhen = domTree.find( '[name="hostWhen"]' );

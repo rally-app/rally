@@ -1,5 +1,7 @@
 var hogan = window.Hogan;
 
+// TODO: browserify
+// this should be a require-able module
 var bindAll = function( objectWithMethods, objectToBindTo ) {
   var boundMethods = {};
   Object.keys( objectWithMethods ).forEach( function( methodName ) {
