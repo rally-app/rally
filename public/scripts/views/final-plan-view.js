@@ -6,13 +6,15 @@ window.FinalPlanView = Backbone.View.extend({
 
   className: 'finalPlanView',
 
-  template: hogan.compile( ['<span id="plan">You\'re rallying with {{voteCount}} friends tonight at {{winner}}! See you there at {{hostWhen}}!</span>',
+  template: hogan.compile( ['<span id="plan">You\'re rallying at {{winner.name}}! See you there {{hostWhen}}!</span>'
               // '<div id="buttons">',
                 //buttons for map it, share it, make your own rally
               // '</div>',
               ].join( '\n' ) ),
 
+
   initialize: function(){
+    console.log( this.model );
     this.render();
   },
 
@@ -21,7 +23,15 @@ window.FinalPlanView = Backbone.View.extend({
   },
 
   render: function(){
-    this.$el.html( this.template.render( this.model.attributes ) );
+
+    var templateAttributes = {
+      winner: this.model.get( 'rounds' )[0].winner.option,
+      hostWhen: moment( this.model.get( 'hostWhen' ) ).calendar()
+    }
+
+    console.log( this.model );
+
+    this.$el.html( this.template.render( templateAttributes ) );
     return this;
   }
 
