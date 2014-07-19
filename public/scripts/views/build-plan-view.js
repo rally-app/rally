@@ -30,8 +30,9 @@ window.BuildPlanView = Backbone.View.extend({
     '<button type="reset" id="clearPlan">Clear</button></div>' ].join("") ),
 
   initialize: function() {
-    // save references to the inputs once so we don't have to perform mutliple $() selections
+    this._hasRendered = false;
     this.render();
+    // save references to the inputs once so we don't have to perform mutliple $() selections
     this._inputs = this.$el.find( "input[type='text']" );
     this._selects = this.$el.find( "select" );
     this._$hostWhen = this.$el.find( '[name="hostWhen"]' );
@@ -88,10 +89,8 @@ window.BuildPlanView = Backbone.View.extend({
   },
 
   makeEnd: function( minutes ) {
-    var now = moment().startOf( 'minute' ).add( 'minutes', 1 ); //round to nearest minute and add 1 to remain relative to createdAt
-    now.add( 'minutes', minutes );
-
-    return now;
+    //round to nearest minute and add 1 to remain relative to createdAt
+    return moment().startOf( 'minute' ).add( 'minutes', minutes + 1 ); 
   },
 
   //Remove all spaces and split email entries into an array of emails.
@@ -99,18 +98,21 @@ window.BuildPlanView = Backbone.View.extend({
     return emailString.replace( /\s/g, '' ).split( ',' );
   },
 
-  madlib: function() {
-    this._selects.map( function() {
+  madlib: function( tree ) {
+    tree.find( 'select' ).map( function() {
       $( this ).madlibSelect();
     });
-    this._inputs.map( function() {
+    tree.find( 'input[type="text"]' ).map( function() {
       $( this ).madlibInput();
     });
+    return tree;
   },
 
   render: function() {
-    this.$el.html( this.template.render( this.model.attributes ) );
-    setTimeout( this.madlib.bind( this ), 0 );
+    // this hocus-pocus ensures the madlibs are built before the html is displayed
+    // (prevents jarring repaint after render)
+    var detatchedTree = $( this.template.render( this.model.attributes) );
+    this.$el.html( this.madlib( detatchedTree ) );
     return this;
   }
 
