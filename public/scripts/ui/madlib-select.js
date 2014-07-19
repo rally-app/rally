@@ -1,6 +1,10 @@
 ( function( $ ) {
   "use strict";
 
+  var TRANSITION_DURATION = 200; // ms
+
+  var body = $( "body" );
+
   var MadlibSelect = (function( $ ){
 
     function MadlibSelect( jqSelect ) {
@@ -11,18 +15,32 @@
       this.madlibSelect = $( this.buildHtml() );
       this._selected = this.madlibSelect.find( ".madlib-select--selected" );
       this._options = this.madlibSelect.find( ".madlib-select--options" );
-      
+      this.optionsVisibile  = false;
+
       this.originalSelect
         .hide()
         .after( this.madlibSelect );
 
       this.madlibSelect
+        
         .on( "click", ".madlib-select--option", function( evt ) {
           this.changeSelected( evt.target );
         }.bind( this ) )
-        .on( "click", function() {
-          this._options.fadeToggle( 200 );
+        
+        .on( "click", function( evt ) {
+          var method;
+          evt.stopPropagation();
+          this.optionsVisibile = !this.optionsVisibile;
+          method = ( this.optionsVisibile ? "show" : "hide" ) + "Options";
+          this[ method ]();
         }.bind( this ) );
+
+      body.on( "click", function() {
+        if ( this.optionsVisibile ) {
+          this.optionsVisibile = false;
+          this.hideOptions();
+        }
+      }.bind( this ) );
     }
 
     MadlibSelect.prototype.buildHtml = function() {
@@ -38,7 +56,7 @@
 
     var selected = 
       "<span class='madlib-select--selected'>" +
-      this.originalSelect.find( ":selected" ).html() +
+        this.originalSelect.find( ":selected" ).html() +
       "</span>";
 
       return [
@@ -57,6 +75,14 @@
       this._selected.html( html );
       this.originalSelect.find( "option[value='" + val + "']" ).prop( "selected" , true );
       this.originalSelect.trigger( "change" );
+    };
+
+    MadlibSelect.prototype.showOptions = function() {
+      this._options.fadeIn( TRANSITION_DURATION );
+    };
+
+    MadlibSelect.prototype.hideOptions = function() {
+      this._options.fadeOut( TRANSITION_DURATION );
     };
 
     return MadlibSelect;
