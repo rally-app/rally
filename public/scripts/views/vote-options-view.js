@@ -85,7 +85,8 @@ window.VoteOptionsView = Backbone.View.extend({
         router.navigate( 
           '/' + model.get( 'id' ) +
           '/round/' + model.get( 'currentRoundNum' ) +
-          ( response.expired ? '/expired' : '/voted' )
+          ( response.expired ? '/expired' : '/voted' ),
+          { trigger: true }
         );
       });
     }
