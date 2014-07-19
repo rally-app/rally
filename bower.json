@@ -9,7 +9,8 @@
     "modernizr": "~2.7.1",
     "hogan": "~3.0.0",
     "moment": "~2.7.0",
-    "fastclick": "~1.0.2"
+    "fastclick": "~1.0.2",
+    "ladda": "~0.9.4"
   },
   "devDependencies": {}
 }
