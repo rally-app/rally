@@ -28,6 +28,7 @@ window.Router = Backbone.Router.extend({
     var planModel = new PlanModel();
     var buildPlanView = new BuildPlanView({ model: planModel });
     appWrapper.html( buildPlanView.$el );
+    appWrapper.currentView = buildPlanView;
   },
 
   //Renders a view for invitees to accept the invitaion to rally

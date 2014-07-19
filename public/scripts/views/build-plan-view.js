@@ -30,17 +30,8 @@ window.BuildPlanView = Backbone.View.extend({
     '<button type="reset" id="clearPlan">Clear</button></div>' ].join("") ),
 
   initialize: function() {
-    this._hasRendered = false;
     this.render();
     // save references to the inputs once so we don't have to perform mutliple $() selections
-    this._inputs = this.$el.find( "input[type='text']" );
-    this._selects = this.$el.find( "select" );
-    this._$hostWhen = this.$el.find( '[name="hostWhen"]' );
-    this._$hostWho = this.$el.find( '[name="hostWho"]' );
-    this._$hostWhat = this.$el.find( '[name="hostWhat"]' );
-    this._$hostWhere = this.$el.find( '[name="hostWhere"]' );
-    this._$hostName = this.$el.find( '[name="hostName"]' );
-    this._$finalVoteEnd = this.$el.find( '[name="finalVoteEnd"]' );
   },
 
   events: {
@@ -99,10 +90,10 @@ window.BuildPlanView = Backbone.View.extend({
   },
 
   madlib: function( tree ) {
-    tree.find( 'select' ).map( function() {
+    this._selects.map( function() {
       $( this ).madlibSelect();
     });
-    tree.find( 'input[type="text"]' ).map( function() {
+    this._inputs.map( function() {
       $( this ).madlibInput();
     });
     return tree;
@@ -111,8 +102,22 @@ window.BuildPlanView = Backbone.View.extend({
   render: function() {
     // this hocus-pocus ensures the madlibs are built before the html is displayed
     // (prevents jarring repaint after render)
-    var detatchedTree = $( this.template.render( this.model.attributes) );
-    this.$el.html( this.madlib( detatchedTree ) );
+    var domTree = $( this.template.render( this.model.attributes) );
+
+    // cache refs to stuff we need here
+    // not gonna be able to do it in @initialize() bc new elements get rendered each time
+    this._inputs = domTree.find( "input[type='text']" );
+    this._selects = domTree.find( "select" );
+    this._$hostWhen = domTree.find( '[name="hostWhen"]' );
+    this._$hostWho = domTree.find( '[name="hostWho"]' );
+    this._$hostWhat = domTree.find( '[name="hostWhat"]' );
+    this._$hostWhere = domTree.find( '[name="hostWhere"]' );
+    this._$hostName = domTree.find( '[name="hostName"]' );
+    this._$finalVoteEnd = domTree.find( '[name="finalVoteEnd"]' );
+    
+    this.madlib( domTree );
+    this.$el.empty().append( domTree );
+
     return this;
   }
 
