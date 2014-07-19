@@ -1,29 +1,37 @@
 var hogan = window.Hogan;
 
+// TODO: browserify
+// this should be a require-able module
+var bindAll = function( objectWithMethods, objectToBindTo ) {
+  var boundMethods = {};
+  Object.keys( objectWithMethods ).forEach( function( methodName ) {
+    var originalMethod = objectWithMethods[ methodName ];
+    if ( typeof originalMethod === 'function' ) {
+      boundMethods[ methodName ] = originalMethod.bind( objectToBindTo );
+    }
+  });
+  return boundMethods;
+};
+
 window.VoteOptionsView = Backbone.View.extend({
 
   tagName: 'div',
 
   className: 'voteOptionsView',
 
-  template: hogan.compile( ['<span id="affirmation">Great! Where to?</span>',
-              '<div id="options">',
-                '{{#currentRoundOptions}}',
-                '<input class="priority" type="button" value="{{name}}" data-index="{{index}}">',
-                  //'<span id="rec1-title">{{title}}</span>', //modify when decide on final recommendation properties to display
-                  //'<span id="rec1-description"></span>',
-                  //'<span id="rec1-cost"></span><span id="rec1-rating"></span>',
-                '{{/currentRoundOptions}}',
-              '</div>',
-              '<div id="vote">',
-                '<input id="submitVote" type="button" value="Vote!">',
-              '</div>',
-              // '<div id="counters">',
-              //   '<span id="rally-eta">{{ ??? }}</span>',
-              //   '<span id="round-number">{{ currentRound + '/' + rounds.length }}</span>',
-              //   '<span id="round-deadline">{{ ??? }}</span>',
-              // '</div>',
-              ].join('\n') ),
+  template: hogan.compile([
+    '<ul class="priority-list">',
+      '{{#currentRoundOptions}}',
+        '<li class="option priority-item" data-value="{{name}}" data-index="{{index}}">',
+          '<span class="option--name">{{name}}</span>',
+          '<span class="option--price">{{price_level}}</span>',
+          '<span class="option--rating">{{rating}}</span>',
+        '</li>',
+      '{{/currentRoundOptions}}',
+      '</ul>',
+      '<div class="actions-wrapper">',
+        '<button id="submitVote" type="button">Vote</button>',
+      '</div>'].join( '\n' )),
 
   initialize: function(){
     this.render();
@@ -33,18 +41,24 @@ window.VoteOptionsView = Backbone.View.extend({
       userVotes: [],
       currentRoundNum: this.model.get( 'currentRoundNum' )
     });
+    this._priorityCount = 0;
+
+    this.controller = bindAll( this.controller, this );
   },
 
   events: {
-    'click .priority': function(event){
-      event.preventDefault();
-      $(event.currentTarget).attr( 'disabled', 'disabled' );
-      this.controller.setPriority.call( this, Number(event.currentTarget.dataset.index) );
+    'click .priority-item': function( event ){
+      var $target = $( event.currentTarget );
+      if ( !$target.is( ".priority-item--disabled" ) ) {
+        this._priorityCount += 1;
+        $target.addClass( "priority-item--disabled" );
+        $target.attr( "data-order", this._priorityCount );
+        this.controller.setPriority( +$target.data( "index" ) );
+      }
     },
     'click #submitVote': function(event){
-      event.preventDefault();
       $(event.currentTarget).attr( 'disabled', 'disabled' );
-      this.controller.submitVote.call( this );
+      this.controller.submitVote();
     }
   },
 
@@ -59,22 +73,21 @@ window.VoteOptionsView = Backbone.View.extend({
       userVotes.push( option );
       this._voteModel.set( 'userVotes', userVotes );
       var currentRoundOptions = this.model.get( 'currentRoundOptions' );
-      if( userVotes.length === currentRoundOptions.length ){
+      if( userVotes.length === currentRoundOptions.length ) {
+        console.log( 'submitting...' );
         $( '#submitVote' ).trigger( 'click' );
       }
     },
 
     submitVote: function(){
-      var context = this;
-      this._voteModel.save()
-      .then( function( response ) {
-        if( response.expired === true ) {
-          router.navigate( '/' + context.model.get( 'id' ) + '/round/' + context.model.get( 'currentRoundNum' ) + '/expired', { trigger: true } );
-        } else {
-          router.navigate( '/' + context.model.get( 'id' ) + '/round/' + context.model.get( 'currentRoundNum' ) + '/voted', { trigger: true } );
-        }
+      var model = this.model;
+      this._voteModel.save().then( function( response ) {
+        router.navigate( 
+          '/' + model.get( 'id' ) +
+          '/round/' + model.get( 'currentRoundNum' ) +
+          ( response.expired ? '/expired' : '/voted' )
+        );
       });
-
     }
 
   }

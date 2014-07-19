@@ -13,8 +13,18 @@
     <!-- build:js scripts/vendor/modernizr.js -->
     <script src="bower_components/modernizr/modernizr.js"></script>
     <!-- endbuild -->
+
+    <link rel="stylesheet" href="bower_components/ladda/dist/ladda.min.css">
+    <link rel="stylesheet" href="styles/madlib-select.css">
+    <link rel="stylesheet" href="styles/rally.css">
+
   </head>
   <body>
+
+    <div class="app" id="app">
+
+    </div>
+
     <!--[if lt IE 10]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
@@ -38,9 +48,14 @@
     <script src="bower_components/backbone/backbone.js"></script>
     <script src="bower_components/hogan/web/builds/3.0.2/hogan-3.0.2.js"></script>
     <script src="bower_components/moment/moment.js"></script>
+    <script src="bower_components/fastclick/lib/fastclick.js"></script>
+    <script src="bower_components/ladda/dist/spin.min.js"></script>
+    <script src="bower_components/ladda/dist/ladda.min.js"></script>
+    <script src="bower_components/ladda/dist/ladda.jquery.min.js"></script>
     <!-- endbuild -->
 
     <!-- build:js scripts/plugins.js -->
+    <!-- not using them
     <script src="bower_components/sass-bootstrap/js/affix.js"></script>
     <script src="bower_components/sass-bootstrap/js/alert.js"></script>
     <script src="bower_components/sass-bootstrap/js/dropdown.js"></script>
@@ -53,6 +68,7 @@
     <script src="bower_components/sass-bootstrap/js/scrollspy.js"></script>
     <script src="bower_components/sass-bootstrap/js/collapse.js"></script>
     <script src="bower_components/sass-bootstrap/js/tab.js"></script>
+    -->
     <!-- endbuild -->
 
     <!-- build:js({.tmp,app}) scripts/main.js -->
@@ -82,9 +98,17 @@
     <!-- routers -->
     <script src="scripts/routers/router.js"></script>
 
+    <!-- ui -->
+    <script src="scripts/ui/madlib-select.js"></script>
+    <script src="scripts/ui/madlib-input.js"></script>
+
 
     <script>
-    
+      
+      $(function() {
+        FastClick.attach(document.body);
+      });
+
       window.router = new Router();
       Backbone.history.start();
 

@@ -7,6 +7,10 @@ var VoteConfirmedView = window.VoteConfirmedView;
 var FinalizedPlanView = window.FinalizedPlanView;
 var RoundExpiredView = window.RoundExpiredView;
 
+var appWrapper = $( "#app" );
+appWrapper.loadingView = function() {
+  this.html( "<h2>Loading!</h2>" );
+};
 
 window.Router = Backbone.Router.extend({
 
@@ -20,21 +24,21 @@ window.Router = Backbone.Router.extend({
   },
 
   buildPlan: function() {
-    $( 'body' ).empty();
+    appWrapper.loadingView();
     var planModel = new PlanModel();
     var buildPlanView = new BuildPlanView({ model: planModel });
-    $( 'body' ).append( buildPlanView.$el );
+    appWrapper.html( buildPlanView.$el );
+    appWrapper.currentView = buildPlanView;
   },
 
   //Renders a view for invitees to accept the invitaion to rally
   //TODO: will need some session logic to redirect to either vote options or vote confirmed if user has voted on this round.
   proposedPlan: function( id ) {
-    $( 'body' ).empty();
+    appWrapper.loadingView();
     var planModel = new PlanModel({ id: id });
-    
     planModel.fetch().then( function(){
       var proposedPlanView = new ProposedPlanView({ model: planModel });
-      $( 'body' ).append( proposedPlanView.$el );
+      appWrapper.html( proposedPlanView.$el );
     });
 
   },
@@ -42,46 +46,43 @@ window.Router = Backbone.Router.extend({
   //Renders a view for the first round of voting
   //TODO: will need some session logic to redirect to vote confirmed if user has voted on this round.
   voteOptions: function( id ) {
-    $( 'body' ).empty();
+    appWrapper.loadingView();
     var planModel = new PlanModel({ id: id });
-
     planModel.fetch().then( function(){
       var voteOptionsView = new VoteOptionsView({ model: planModel });
-      $( 'body' ).append( voteOptionsView.$el );
+      console.log( planModel );
+      appWrapper.html( voteOptionsView.$el );
     });
 
   },
 
   //Renders the voteComfirmed view to indicate a state of waiting for group decision.
   voteConfirmed: function( id ) {
-    $( 'body' ).empty();
+    appWrapper.loadingView();
     var planModel = new PlanModel({ id: id });
-
     planModel.fetch().then( function(){
       //voteConfirmedView is currently unaffected by planModel, but will eventually utilize it.
       var voteConfirmedView = new VoteConfirmedView({ model: planModel });
-      $( 'body' ).append( voteConfirmedView.$el );
+      appWrapper.html( voteConfirmedView.$el );
     });
 
   },
 
   roundExpired: function( id ) {
-    $( 'body' ).empty();
+    appWrapper.loadingView();
     var planModel = new PlanModel({ id: id });
-
     planModel.fetch().then( function() {
       var roundExpiredView = new RoundExpiredView({ model: planModel });
-      $( 'body' ).append( roundExpiredView.$el );
+      appWrapper.html( roundExpiredView.$el );
     })
   },
 
   finalizedPlan: function( id ) {
-    $( 'body' ).empty();
+    appWrapper.loadingView();
     var planModel = new PlanModel({ id: id });
-
     planModel.fetch().then( function(){
       var finalPlanView = new FinalPlanView({ model: planModel });
-      $( 'body' ).append( finalPlanView.$el );
+      appWrapper.html( finalPlanView.$el );
     });
 
   }
