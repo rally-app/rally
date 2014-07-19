@@ -1,0 +1,20 @@
+.madlib-original-select {
+  display: none; }
+
+.madlib-select {
+  position: relative; }
+
+.madlib-select--options {
+  position: absolute;
+  display: none;
+  top: 0;
+  left: -50%;
+  background: #666666;
+  color: white; }
+
+.madlib-select--option {
+  display: block;
+  padding: 0.5rem; }
+
+.madlib-select--option:hover {
+  background: #999999; }

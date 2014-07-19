@@ -1,0 +1,39 @@
+.priority-list 
+  list-style-type: none
+  padding-left: 0
+  width: 15em
+
+.priority-item 
+  position: relative
+  padding: .5em
+  height: 1.5em
+  -webkit-user-select: none
+  cursor: pointer
+
+.priority-item:after 
+  content: attr(data-order)
+  position: absolute
+  right: .5em
+  top: .5em
+  opacity: 0
+  transition: .25s ease-in-out
+  -webkit-transform: scale(0)
+  -webkit-transform-origin: center center
+  width: 1.5em
+  height: 1.5em
+  text-align: center
+  line-height: 1.5em
+  color: #3498db
+  background: white
+  border-radius: 1em
+
+.priority-item.priority-item--disabled 
+  transition: opacity .25s ease-in-out .15s, background .25s ease-in-out, color .25s ease-in-out
+  background: #3498db
+  color: white
+  cursor: not-allowed
+
+.priority-item.priority-item--disabled:after 
+  opacity: 1
+  transition-timing-function: cubic-bezier(0.5, -0.5, 0.5, 1.5)
+  -webkit-transform: scale(1)

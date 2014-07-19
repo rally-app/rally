@@ -1,0 +1,87 @@
+.madlib-original-select {
+  display: none; }
+
+.madlib-select {
+  position: relative; }
+
+.madlib-select--options {
+  position: absolute;
+  display: none;
+  top: 0;
+  left: -50%;
+  background: #666666;
+  color: white; }
+
+.madlib-select--option {
+  display: block;
+  padding: 0.5rem; }
+
+.madlib-select--option:hover {
+  background: #999999; }
+
+.madlib-input {
+  background: transparent;
+  display: inline-block;
+  border: none;
+  padding: 0.25em;
+  background: #dddddd;
+  color: #333333;
+  min-width: 1em;
+  border-radius: 0.25em; }
+
+button,
+input[type="button"] {
+  background: transparent;
+  border: 1px solid #333333;
+  border-radius: 0.25em;
+  padding: 0.25em 0.5em; }
+
+.priority-list {
+  list-style-type: none;
+  padding-left: 0;
+  width: 15em; }
+
+.priority-item {
+  position: relative;
+  padding: 0.5em;
+  height: 1.5em;
+  -webkit-user-select: none;
+  cursor: pointer; }
+
+.priority-item:after {
+  content: attr(data-order);
+  position: absolute;
+  right: 0.5em;
+  top: 0.5em;
+  opacity: 0;
+  transition: 0.25s ease-in-out;
+  -webkit-transform: scale(0);
+  -webkit-transform-origin: center center;
+  width: 1.5em;
+  height: 1.5em;
+  text-align: center;
+  line-height: 1.5em;
+  color: #3498db;
+  background: white;
+  border-radius: 1em; }
+
+.priority-item.priority-item--disabled {
+  transition: opacity 0.25s ease-in-out 0.15s, background 0.25s ease-in-out, color 0.25s ease-in-out;
+  background: #3498db;
+  color: white;
+  cursor: not-allowed; }
+
+.priority-item.priority-item--disabled:after {
+  opacity: 1;
+  transition-timing-function: cubic-bezier(0.5, -0.5, 0.5, 1.5);
+  -webkit-transform: scale(1); }
+
+html {
+  font-family: "Avenir Next", sans-serif;
+  font-size: 150%; }
+
+button,
+input,
+textarea,
+select {
+  font: inherit; }
