@@ -2,7 +2,8 @@ window.PlanModel = Backbone.Model.extend({
   urlRoot: '/plan/',
 
   initialize: function() {
-    this.set( 'rounds', []);
+    this.set( 'rounds', [] );
+    console.log( 'initialize model: ', this.get( 'rounds' ), this );
     this.on( 'sync', function(){
       if ( this.get( 'rounds' ).length ) {
         this.setCurrentRound();
@@ -32,7 +33,7 @@ window.PlanModel = Backbone.Model.extend({
     var currentRoundOptions = this.get( 'currentRoundOptions' );
     for( var i = 0; i < currentRoundOptions.length; i++ ){
       currentRoundOptions[i].index = i;
-      console.log(i, currentRoundOptions); //left in to demonstrate that these methods are being called twice for some reason
+      console.log(i, currentRoundOptions[i]); //these methods are being called twice likely due to .on( 'sync' ) - should be fixed probably
     }
   }
 

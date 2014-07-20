@@ -35,7 +35,9 @@ window.VoteOptionsView = Backbone.View.extend({
 
   initialize: function(){
     this.render();
-    // this.model.on( 'change', this.render.bind( this ) ); // ??? remove this once we ascertain the order of fetch
+    console.log( 'voteOptionsView model.attributes', this.model.attributes );
+    //create pseudoprivate voteModel that we'll accumulate votes within and send to server for talling
+    //this is done per-user and thus not on the planModel
     this._voteModel = new window.VoteModel({
       planId: this.model.get( 'id' ),
       userVotes: [],

@@ -8,7 +8,8 @@ var sendEmails = require( '../modules/send-emails' );
 // stub for real db obj/methods
 // db.find() and db.save() return promises
 // our real db implementation will have promisified methods
-var db = require( '../stubs/db' );
+// var db = require( '../stubs/db' );
+var db = require( '../modules/mongodb.js' );
 // var options = require( '../stubs/options-fixture' );
 var places = require( '../modules/places.js' );
 // var moment = require( 'moment' );
@@ -18,7 +19,7 @@ var deadline = require( '../modules/deadline.js' );
 router.get( '/:id', function( req, res ) {
   db.find( 'plan', req.params.id )
   .then( function( plan ){
-    res.send( plan );
+    res.json( plan );
   })
   .catch( function( statusCode ) {
     res.send( statusCode );
@@ -34,24 +35,23 @@ router.post( '/', function( req, res ) {
   places( query )
   .then( function ( recommendations ) {
     
-
     //creating round object with recommendations and pushing to plan.rounds
     plan.rounds.push( {
       options: recommendations,
       votes: [],
       winner: null,
     } );
-
-    deadline.addRoundDeadlines( plan );
+    // deadline.addRoundDeadlines( plan );
 
     //saving plan to db
     return db.save( 'plan', plan );
   })
   .then( function ( result ) {
     // Sends emails each hostWho for first round voting
+    console.log( 'result from save!', JSON.stringify( result ) );
     sendEmails( result, 0 );
-    res.send( result );
-    deadline.registerDeadlinesInDb( result );
+    res.json( result );
+    // deadline.registerDeadlinesInDb( result );
   })
   .catch( function( statusCode ) {
     res.send( statusCode );

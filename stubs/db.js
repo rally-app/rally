@@ -1,6 +1,8 @@
+// no longer using this db since we created our mongo db
+
 'use strict';
 
-// 'require' calls to coref modules
+// 'require' calls to core modules
 // none
 
 // require calls to installed modules

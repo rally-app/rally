@@ -1,4 +1,5 @@
 module.exports = {
+  id: '12345',
   hostName: "Nick",
   hostWho: [ "jared@email.com", "mike@email.com" ],
   hostWhen: "7:00pm today",
