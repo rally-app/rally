@@ -24,11 +24,15 @@ window.ProposedPlanView = Backbone.View.extend({
     //save the model then navigate to the first round of voting
     var self = this;
     this.model.save().then( function( response ) {
-      if( response.expired === true ){
-        router.navigate( '/' + self.model.get( 'id' ) + '/round/' + self.model.get( 'currentRoundNum' ) + '/expired' , { trigger: true } );
-      } else {
-        router.navigate( '/' + self.model.get( 'id' ) + '/round/' + self.model.get( 'currentRoundNum' ), { trigger: true } );
-      }
+      // if( response.expired === true ){
+        router.navigate( 
+        '/' + self.model.get( 'id' ) + 
+        '/round/' + self.model.get( 'currentRoundNum' ) + 
+        ( response.expired ? '/expired': '' ), 
+        { trigger: true } );
+      // } else {
+      //   router.navigate( '/' + self.model.get( 'id' ) + '/round/' + self.model.get( 'currentRoundNum' ), { trigger: true } );
+      // }
     });
   },
 
