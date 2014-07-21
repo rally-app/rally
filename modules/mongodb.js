@@ -23,19 +23,11 @@ var mongo = new Mongo ( connectionString, { auto_reconnect: true } );
 //GET
 var find = function( collectionName, id ) {
   console.log( 'Handling document id', id, 'find request in collection', collectionName );
-  return new Bluebird( function( resolve, reject ) {
-    mongo.find( collectionName, { id: id } )
-    .then( function( plan ) {
-      console.log( 'Success on document id', id, 'find:', JSON.stringify( plan ) );
-      resolve( plan[0] ); //find returns an array
-    })
-    .catch( function( err ) {
-      reject( NOT_FOUND, err );
-    });
-  })
+  return mongo.find( collectionName, { id: id } );
 };
 
 //POST
+//saves plan and vote models to respective collections
 var save = function( collectionName, obj ) {
   return new Bluebird( function( resolve, reject ) {
     var id = uniqueId();
@@ -45,10 +37,10 @@ var save = function( collectionName, obj ) {
       //confirm insert into database - without this future gets to plan with that ID fail - why?
       mongo.find( collectionName, {id: obj.id})
       .then( function( foundObj ) {
-        console.log( 'Success on document id', obj.id, 'insert.' );
+        console.log( 'Insert successful on document id', obj.id );
       })
       .catch( function( err ) {
-        console.log( 'Failure on document id', obj.id, 'insert:', err );
+        console.log( 'Insert failed on document id', obj.id, err );
       });
       resolve( obj );
     })
@@ -58,46 +50,10 @@ var save = function( collectionName, obj ) {
   });
 };
 
-  // PUT
-  // update: function( modelName, id, obj ) {
-  //   return new Bluebird( function( resolve, reject ) {
-  //     var success = !!storage[ modelName ][ id ];
-  //     setTimeout( function() {
-  //       if ( success ) {
-  //         storage[ modelName ][ id ] = JSON.stringify( obj );
-  //         resolve( obj );
-  //       } else {
-  //         reject( NOT_FOUND );
-  //       }
-  //     }, DELAY );
-  //   });
-  // },
-
 //PUT
 var update = function( collectionName, id, obj ) {
-  return new Bluebird( function( resolve, reject ) {
-    mongo.findAndModify( collectionName, { id: id }, obj )
-    .then( function( what ) {
-      console.log( 'what returned from findAndModify: ', JSON.stringify( what ) );
-    })
-    .catch( function( err ) {
-      reject( NOT_FOUND, err );
-    })
-  });
+  return mongo.findAndModify( collectionName, { id: id }, obj );
 };
-  
-  // mongo.collection( 'plan' )
-  // .then( function( collection ) {
-  //   console.log( 'collection:', collection.collectionName );
-  //   // mongo.insert( collection.collectionName, testPlan );
-  //   mongo.remove( collection.collectionName, {hostWhat: 'drinks'});
-  // })
-  // .then( function( what )  {
-  //   console.log( 'what is returned:', what );
-  // })
-  // .catch( function( err ) {
-  //   console.log( 'err:', err );
-  // });
 
 module.exports = {
   find: find,

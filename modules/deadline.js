@@ -46,6 +46,7 @@ var expireDeadlines = function( threshold ) {
     deadlinesToExpire.forEach( function( deadlineObj ) {
       db.find( 'plan', deadlineObj.id )
       .then( function( plan ) {
+        plan = plan[0]; //mongo.find returns an array with results, of which we want the first (and only)
         closeRound( plan, deadlineObj.roundNum );
       })
       .catch( function( err ) {

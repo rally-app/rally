@@ -19,6 +19,7 @@ var deadline = require( '../modules/deadline.js' );
 router.get( '/:id', function( req, res ) {
   db.find( 'plan', req.params.id )
   .then( function( plan ){
+    plan = plan[0]; //mongo.find returns an array with results, of which we want the first (and only)
     res.json( plan );
   })
   .catch( function( statusCode ) {
@@ -48,9 +49,8 @@ router.post( '/', function( req, res ) {
   })
   .then( function ( result ) {
     // Sends emails each hostWho for first round voting
-    console.log( 'result from save!', JSON.stringify( result ) );
     sendEmails( result, 0 );
-    res.json( result );
+    res.json( result ); //mongo sends back an object, so stringify on send via res.json
     // deadline.registerDeadlinesInDb( result );
   })
   .catch( function( statusCode ) {
@@ -73,11 +73,13 @@ router.put( "/:id", function( req, res ) {
     // Update the plan with an additional attending
     db.find( 'plan', req.params.id )
     .then( function( plan ) {
+      plan = plan[0]; //mongo.find returns an array with results, of which we want the first (and only)
       plan.attending = plan.attending + 1;
       return db.update( 'plan', plan.id, plan )
     })
     .then( function( plan ) {
-      res.send( plan );
+      plan = plan[0]; //mongo.find returns an array with results, of which we want the first (and only)
+      res.json( plan );
     })
     .catch( function( statusCode ) {
       res.send( statusCode );

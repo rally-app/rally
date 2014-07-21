@@ -18,6 +18,7 @@ router.post( '/', function( req, res ) {
   })
   // add the vote to the plan and update the plan in the database
   .then( function( plan ) {
+    plan = plan[0]; //mongo find returns an array, first element of which is our desired result
     var currentRound = vote.currentRoundNum - 1;
     // Check if the session lastVote is the current round
     if( req.session.lastVote === currentRound ) {
@@ -37,10 +38,13 @@ router.post( '/', function( req, res ) {
   // check if this round is done and close it if so.
   // respond with the updated plan
   .then( function( plan ) {
+    console.log( 'trying to close round', JSON.stringify( plan[0].rounds[0].votes ) );
+    plan = plan[0]; //mongo findAndModify returns an array, first element of which is our desired result
     if ( plan.rounds[ vote.currentRoundNum - 1 ].votes.length === plan.hostWho.length + 1 ) {
+      console.log( 'closing round', JSON.stringify( plan.rounds[ vote.currentRoundNum - 1 ] ) );
       closeRound( plan, vote.currentRoundNum - 1 );
     }
-    res.send( plan );
+    res.json( plan );
   })
   // failed somewhere, send back the status code
   .catch( function( statusCode ) {

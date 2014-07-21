@@ -46,15 +46,9 @@ window.Router = Backbone.Router.extend({
   voteOptions: function( id ) {
     appWrapper.loadingView();
     var planModel = new PlanModel({ id: id });
-    planModel.fetch({
-      success: function( planModel, response, options ){
-        // console.log( 'voteOptions fetch receives:', planModel, response, options );
-        var voteOptionsView = new VoteOptionsView({ model: planModel });
-        appWrapper.html( voteOptionsView.$el );
-      },
-      error: function( err ){
-        console.log( 'fetch err', err );
-      }
+    planModel.fetch().then( function(){
+      var voteOptionsView = new VoteOptionsView({ model: planModel });
+      appWrapper.html( voteOptionsView.$el );
     });
   },
 

@@ -3,7 +3,6 @@ window.PlanModel = Backbone.Model.extend({
 
   initialize: function() {
     this.set( 'rounds', [] );
-    console.log( 'initialize model: ', this.get( 'rounds' ), this );
     this.on( 'sync', function(){
       if ( this.get( 'rounds' ).length ) {
         this.setCurrentRound();
