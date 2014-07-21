@@ -25,7 +25,7 @@ window.FinalPlanView = Backbone.View.extend({
   render: function(){
 
     var templateAttributes = {
-      winner: this.model.get( 'rounds' )[0].winner.option,
+      winner: this.model.get( 'rounds' )[0].winner,
       hostWhen: moment( this.model.get( 'hostWhen' ) ).calendar()
     }
 

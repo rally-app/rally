@@ -32,6 +32,7 @@ router.post( '/', function( req, res ) {
       req.session.lastVote = currentRound;
       // add the vote tp the plan and update the plan in the database
       plan.rounds[ currentRound ].votes.push( vote );
+      console.log( plan.rounds[ currentRound ].votes );
       return db.update( 'plan', plan.id, plan );
     }
   })
@@ -39,7 +40,6 @@ router.post( '/', function( req, res ) {
   // respond with the updated plan
   .then( function( plan ) {
     console.log( 'trying to close round', JSON.stringify( plan[0].rounds[0].votes ) );
-    plan = plan[0]; //mongo findAndModify returns an array, first element of which is our desired result
     if ( plan.rounds[ vote.currentRoundNum - 1 ].votes.length === plan.hostWho.length + 1 ) {
       console.log( 'closing round', JSON.stringify( plan.rounds[ vote.currentRoundNum - 1 ] ) );
       closeRound( plan, vote.currentRoundNum - 1 );
