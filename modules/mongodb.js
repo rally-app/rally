@@ -12,11 +12,10 @@ var BAD_REQUEST = 400;
 var DELAY = 100;
 
 //temporary
-var secrets = require('../secrets.js');
 var testPlan = require( '../stubs/plan-fixture.js' );
 
 //retrieve our custom connection string from environmental variable set in Azure
-var connectionString = process.env.CUSTOMCONNSTR_MONGOLAB_URI || secrets.MONGO_CONN; //replace with only process.env
+var connectionString = process.env.CUSTOMCONNSTR_MONGOLAB_URI;
 
 var mongo = new Mongo ( connectionString, { auto_reconnect: true } );
 
