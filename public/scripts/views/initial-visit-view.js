@@ -27,6 +27,7 @@ var InitialVisitView = window.InitialVisitView = Backbone.View.extend({
       name: this.nameInput.val(),
       email: this.emailInput.val()
     }));
+    // navigate to next page?
   },
 
   render: function() {

@@ -104,11 +104,12 @@
 
 
     <script>
-      
+      // initialize fastclick.
       $(function() {
         FastClick.attach(document.body);
       });
 
+      // kick off the app.
       window.router = new Router();
       Backbone.history.start();
 

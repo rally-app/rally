@@ -74,7 +74,6 @@ window.VoteOptionsView = Backbone.View.extend({
       this._voteModel.set( 'userVotes', userVotes );
       var currentRoundOptions = this.model.get( 'currentRoundOptions' );
       if( userVotes.length === currentRoundOptions.length ) {
-        console.log( 'submitting...' );
         $( '#submitVote' ).trigger( 'click' );
       }
     },
