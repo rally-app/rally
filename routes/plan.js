@@ -39,7 +39,7 @@ router.post( '/', function( req, res ) {
       votes: [],
       winner: null,
     } );
-    // deadline.addRoundDeadlines( plan );
+    deadline.addRoundDeadlines( plan );
 
     //saving plan to db
     return db.save( 'plan', plan );
@@ -49,7 +49,7 @@ router.post( '/', function( req, res ) {
     // Sends emails each hostWho for first round voting
     sendEmails( result, 0 );
     res.json( result ); //mongo sends back an object, so stringify on send via res.json
-    // deadline.registerDeadlinesInDb( result );
+    deadline.registerDeadlinesInDb( result );
   })
   .catch( function( statusCode ) {
     res.send( statusCode );

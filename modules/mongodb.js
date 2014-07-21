@@ -17,13 +17,7 @@ var DELAY = 100;
 //retrieve our custom connection string from environmental variable set in Azure
 var connectionString = process.env.CUSTOMCONNSTR_MONGOLAB_URI || process.env.MONGO_CONN;
 
-var mongo = new Mongo ( connectionString, { auto_reconnect: true } );
-
-//GET
-var find = function( collectionName, id ) {
-  console.log( 'Handling document id', id, 'find request in collection', collectionName );
-  return mongo.find( collectionName, { id: id } );
-};
+var mongo = new Mongo( connectionString, { auto_reconnect: true } );
 
 //POST
 //saves plan and vote models to respective collections
@@ -33,7 +27,7 @@ var save = function( collectionName, obj ) {
     obj.id = id;
     mongo.insert( collectionName, obj )
     .then( function() {
-      //confirm insert into database - without this future gets to plan with that ID fail - why?
+      //confirm insert into database since save doesn't return anything useful
       mongo.find( collectionName, {id: obj.id})
       .then( function( foundObj ) {
         console.log( 'Insert successful on document id', obj.id );
@@ -49,18 +43,27 @@ var save = function( collectionName, obj ) {
   });
 };
 
+//GET
+var find = function( collectionName, query ) {
+  if( typeof( query ) === 'object' ) { //if sent in query, currently used for deadlines
+    return mongo.find( collectionName, query );
+  } else { //else default to id string
+    return mongo.find( collectionName, { id: query } );
+  }
+};
+
 //PUT
 var update = function( collectionName, id, obj ) {
-  console.log( 'updating database at collection:', collectionName, ', id:', id, ', votes:', obj.rounds[0].votes );
   return mongo.findAndModify( collectionName, { id: id }, obj );
+};
+
+var remove = function( collectionName, query ) {
+  return mongo.remove( collectionName, query );
 };
 
 module.exports = {
   find: find,
   save: save,
-  // filter: filter,
-  // findWhere: findWhere, // only used in vote-mixin, which isn't used in app
   update: update,
-  // addDeadline: addDeadline,
-  // expireDeadlines: expireDeadlines
+  remove: remove
 };

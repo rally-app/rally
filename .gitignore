@@ -34,7 +34,9 @@ public/bower_components
 .tmp
 test/bower_components/
 
+# temp environmental variables
 secrets.js
+start-app.txt
 
 # Azure
 azure.err
