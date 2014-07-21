@@ -21,6 +21,8 @@ Instructions for development are available at the Asana link below.
 
 - Node 0.10.29
 - Express
+- Underscore
+- jQuery
 - Backbone
 - Hogan
 - MongoDB
@@ -40,7 +42,7 @@ bower install
 
 ### Tasks
 
-See the projects backlog in asana [here](https://app.asana.com/0/14550098616133/14896487964676)
+See the projects backlog in Asana [here](https://app.asana.com/0/14550098616133/14896487964676)
 
 ## Contributing
 
