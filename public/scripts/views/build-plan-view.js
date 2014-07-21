@@ -82,7 +82,7 @@ window.BuildPlanView = Backbone.View.extend({
     var values = this.getValues();
 
     $.extend( values, {
-      createdAt: moment().startOf( 'minute' ).add( 'minutes', 1 ),
+      createdAt: moment().startOf( 'minute' ).add( 'minute', 1 ), //round up to next minute for facility with expireDeadlines()
       attending: 1
     });
     model.set( values );
@@ -105,8 +105,8 @@ window.BuildPlanView = Backbone.View.extend({
   },
 
   makeEnd: function( minutes ) {
-    //round to nearest minute and add 1 to remain relative to createdAt
-    return moment().startOf( 'minute' ).add( 'minutes', minutes + 1 ); 
+    //round up to nearest minute and add 1 to remain relative to createdAt
+    return moment().startOf( 'minute' ).add( 'minute', minutes ).add( 'minute', 1 );
   },
 
 
