@@ -30,8 +30,8 @@ window.BuildPlanView = Backbone.View.extend({
       '.',
     '</p>',
     '<div class="actions">',
-    // '<button id="clearPlan"><i class="fa</button></div>' 
-      '<button class="good xl no-padding" id="createPlan"><i class="fa fa-check-circle-o"></i></button>',
+      '<button class="warning lg" id="clearPlan"><i class="fa fa-minus-circle"></i></button>',
+      '<button class="good lg" id="createPlan"><i class="fa fa-check-circle-o"></i></button>',
     '</div>'
   ].join("") ),
 

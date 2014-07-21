@@ -38,7 +38,8 @@ input[type="button"] {
   background: transparent;
   border: 1px solid;
   border-radius: 0.25em;
-  padding: 0.25em 0.5em; }
+  padding: 0.25em 0.5em;
+  display: inline-block; }
 
 button.good {
   border-color: #2ecc71;
