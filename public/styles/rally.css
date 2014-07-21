@@ -2,7 +2,11 @@
   display: none; }
 
 .madlib-select {
-  position: relative; }
+  position: relative;
+  background: #dddddd;
+  color: #333333;
+  padding: 0.25em;
+  border-radius: 0.25em; }
 
 .madlib-select--options {
   position: absolute;
@@ -17,7 +21,7 @@
   padding: 0.5rem; }
 
 .madlib-select--option:hover {
-  background: #999999; }
+  background: #666666; }
 
 .madlib-input {
   background: transparent;
