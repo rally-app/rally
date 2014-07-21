@@ -15,12 +15,28 @@ appWrapper.loadingView = function() {
 window.Router = Backbone.Router.extend({
 
   routes: {
-    '': 'buildPlan',
+    '': 'checkHost',
+    'build': 'buildPlan',
     ':id': 'proposedPlan',
     ':id/round/:roundNum': 'voteOptions',
     ':id/round/:roundNum/voted': 'voteConfirmed',
     ':id/round/:roundNum/expired': 'roundExpired',
     ':id/result': 'finalPlan'
+  },
+
+  checkHost: function() {
+    if( window.localStorage.getItem( 'rallyUser' ) === null ) {
+      this.makeHost();
+    } else {
+      this.buildPlan();
+    }
+  },
+
+  makeHost: function() {
+    appWrapper.loadingView();
+    var initialVisitView = new InitialVisitView();
+    appWrapper.html ( initialVisitView.$el );
+    appWrapper.currentView = initialVisitView;
   },
 
   //Renders a view that enables a host to build a plan

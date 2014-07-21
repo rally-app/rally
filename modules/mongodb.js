@@ -15,7 +15,7 @@ var DELAY = 100;
 var testPlan = require( '../stubs/plan-fixture.js' );
 
 //retrieve our custom connection string from environmental variable set in Azure
-var connectionString = process.env.CUSTOMCONNSTR_MONGOLAB_URI;
+var connectionString = process.env.CUSTOMCONNSTR_MONGOLAB_URI || process.env.MONGO_CONN;
 
 var mongo = new Mongo ( connectionString, { auto_reconnect: true } );
 

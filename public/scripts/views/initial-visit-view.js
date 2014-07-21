@@ -27,10 +27,15 @@ var InitialVisitView = window.InitialVisitView = Backbone.View.extend({
       name: this.nameInput.val(),
       email: this.emailInput.val()
     }));
+
+    router.navigate( 
+      '#/',
+      { trigger: true }
+    );
   },
 
   render: function() {
-    this.$el.empty().append( this.template.render( {} ) );
+    this.$el.html( this.template.render() );
     this.emailInput = this.$( '#ivv-email' );
     this.nameInput = this.$( '#ivv-name' );
     return this;

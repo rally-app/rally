@@ -38,7 +38,7 @@ router.post( '/', function( req, res ) {
   // check if this round is done and close it if so.
   // respond with the updated plan
   .then( function( plan ) { // returns exact result, not within array (unlike mongo.find)
-    if ( plan.rounds[ vote.currentRoundNum - 1 ].votes.length === plan.hostWho.length + 1 ) {
+    if ( plan.rounds[ vote.currentRoundNum - 1 ].votes.length === plan.hostWho.length ) {
       console.log( 'closing round...' );
       closeRound( plan, vote.currentRoundNum - 1 );
     }

@@ -4,9 +4,9 @@ var hogan = window.Hogan;
 window.BuildPlanView = Backbone.View.extend({
 
   template: hogan.compile( [ '<div class="buildPlan">',
-    '<p>',
-      'My name is <input class="madlib-input" type="text" name="hostName" placeholder="Full Name" value="Nicholas Henry">.',
-    '</p>',
+    // '<p>',
+    //   'My name is <input class="madlib-input" type="text" name="hostName" placeholder="Full Name" value="Nicholas Henry">.',
+    // '</p>',
     '<p>',
       'I want to ',
       '<select name="hostWhat">',
@@ -41,13 +41,32 @@ window.BuildPlanView = Backbone.View.extend({
 
   getValues: function() {
     return {
-      hostWho: this.parseInvites( this._$hostWho.val() ),
-      hostName: this._$hostName.val(),
+      hostWho: this.getWho(),
+      hostName: this.localName(),
       hostWhat: this._$hostWhat.val(),
       hostWhere: this._$hostWhere.val(),
       hostWhen: this.makeWhen( this._$hostWhen.val() ),
       finalVoteEnd: this.makeEnd( this._$finalVoteEnd.val() )
     };
+  },
+
+  //Remove all spaces and split email entries into an array of emails.
+  parseInvites: function(emailString) {
+    return emailString.replace( /\s/g, '' ).split( ',' );
+  },
+  
+  //Gets all invited emails
+  getWho: function() {
+    //adds locally stored host email to invited emails
+    var hostEmail = JSON.parse( window.localStorage.getItem( 'rallyUser' ) ).email;
+    var invitees = this.parseInvites( this._$hostWho.val() )
+    invitees.push( hostEmail );
+    return invitees;
+  },
+  
+  // gets host name from local storage
+  localName: function() {
+    return JSON.parse( window.localStorage.getItem( 'rallyUser' ) ).name;
   },
 
   createPlan: function( evt ) {
@@ -56,6 +75,7 @@ window.BuildPlanView = Backbone.View.extend({
     }
     var model = this.model;
     var values = this.getValues();
+
     $.extend( values, {
       createdAt: moment().startOf( 'minute' ).add( 'minutes', 1 ),
       attending: 1
@@ -84,10 +104,6 @@ window.BuildPlanView = Backbone.View.extend({
     return moment().startOf( 'minute' ).add( 'minutes', minutes + 1 ); 
   },
 
-  //Remove all spaces and split email entries into an array of emails.
-  parseInvites: function(emailString) {
-    return emailString.replace( /\s/g, '' ).split( ',' );
-  },
 
   madlib: function( tree ) {
     this._selects.map( function() {
