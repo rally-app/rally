@@ -71,6 +71,6 @@ app.use(function(err, req, res, next) {
 });
 
 //create interval of checking database for expired round deadlines
-deadline.expireDeadlines();
+// deadline.expireDeadlines();
 
 module.exports = app;

@@ -4,25 +4,26 @@ var BuildPlanView = window.BuildPlanView;
 var ProposedPlanView = window.ProposedPlanView;
 var VoteOptionsView = window.VoteOptionsView;
 var VoteConfirmedView = window.VoteConfirmedView;
-var FinalizedPlanView = window.FinalizedPlanView;
+var finalPlanView = window.finalPlanView;
 var RoundExpiredView = window.RoundExpiredView;
 
-var appWrapper = $( "#app" );
+var appWrapper = $( '#app' );
 appWrapper.loadingView = function() {
-  this.html( "<h2>Loading!</h2>" );
+  this.html( '<h2>Loading!</h2>' );
 };
 
 window.Router = Backbone.Router.extend({
 
   routes: {
-    "": "buildPlan",
-    ":id": "proposedPlan",
-    ":id/round/:roundNum": "voteOptions",
-    ":id/round/:roundNum/voted": "voteConfirmed",
-    ":id/round/:roundNum/expired": "roundExpired",
-    ":id/result": "finalizedPlan"
+    '': 'buildPlan',
+    ':id': 'proposedPlan',
+    ':id/round/:roundNum': 'voteOptions',
+    ':id/round/:roundNum/voted': 'voteConfirmed',
+    ':id/round/:roundNum/expired': 'roundExpired',
+    ':id/result': 'finalPlan'
   },
 
+  //Renders a view that enables a host to build a plan
   buildPlan: function() {
     appWrapper.loadingView();
     var planModel = new PlanModel();
@@ -31,8 +32,7 @@ window.Router = Backbone.Router.extend({
     appWrapper.currentView = buildPlanView;
   },
 
-  //Renders a view for invitees to accept the invitaion to rally
-  //TODO: will need some session logic to redirect to either vote options or vote confirmed if user has voted on this round.
+  //Renders a view for invitees to accept the invitation to rally
   proposedPlan: function( id ) {
     appWrapper.loadingView();
     var planModel = new PlanModel({ id: id });
@@ -40,23 +40,19 @@ window.Router = Backbone.Router.extend({
       var proposedPlanView = new ProposedPlanView({ model: planModel });
       appWrapper.html( proposedPlanView.$el );
     });
-
   },
 
   //Renders a view for the first round of voting
-  //TODO: will need some session logic to redirect to vote confirmed if user has voted on this round.
   voteOptions: function( id ) {
     appWrapper.loadingView();
     var planModel = new PlanModel({ id: id });
     planModel.fetch().then( function(){
       var voteOptionsView = new VoteOptionsView({ model: planModel });
-      console.log( planModel );
       appWrapper.html( voteOptionsView.$el );
     });
-
   },
 
-  //Renders the voteComfirmed view to indicate a state of waiting for group decision.
+  //Renders the voteConfirmed view to indicate a state of waiting for group decision.
   voteConfirmed: function( id ) {
     appWrapper.loadingView();
     var planModel = new PlanModel({ id: id });
@@ -65,9 +61,9 @@ window.Router = Backbone.Router.extend({
       var voteConfirmedView = new VoteConfirmedView({ model: planModel });
       appWrapper.html( voteConfirmedView.$el );
     });
-
   },
 
+  //Renders a view for when an invitee attempts to backtrack to a previous round that has expired
   roundExpired: function( id ) {
     appWrapper.loadingView();
     var planModel = new PlanModel({ id: id });
@@ -77,7 +73,8 @@ window.Router = Backbone.Router.extend({
     })
   },
 
-  finalizedPlan: function( id ) {
+  //Renders a view that displays the final results of a rally after voting has concluded
+  finalPlan: function( id ) {
     appWrapper.loadingView();
     var planModel = new PlanModel({ id: id });
     planModel.fetch().then( function(){

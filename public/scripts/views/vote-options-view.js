@@ -35,7 +35,8 @@ window.VoteOptionsView = Backbone.View.extend({
 
   initialize: function(){
     this.render();
-    // this.model.on( 'change', this.render.bind( this ) ); // ??? remove this once we ascertain the order of fetch
+    //create pseudoprivate voteModel that we'll accumulate votes within and send to server for talling
+    //this is done per-user and thus not on the planModel
     this._voteModel = new window.VoteModel({
       planId: this.model.get( 'id' ),
       userVotes: [],
@@ -74,7 +75,6 @@ window.VoteOptionsView = Backbone.View.extend({
       this._voteModel.set( 'userVotes', userVotes );
       var currentRoundOptions = this.model.get( 'currentRoundOptions' );
       if( userVotes.length === currentRoundOptions.length ) {
-        console.log( 'submitting...' );
         $( '#submitVote' ).trigger( 'click' );
       }
     },
