@@ -1,0 +1,9 @@
+button,
+input[type="button"] {
+  background: transparent;
+  border: 1px solid #333333;
+  border-radius: 0.25em;
+  padding: 0.25em 0.5em; }
+
+button.success {
+  background: #2ecc71; }

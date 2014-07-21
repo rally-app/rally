@@ -32,6 +32,7 @@ router.post( '/', function( req, res ) {
   places( query )
   .then( function ( recommendations ) {
     
+
     //creating round object with recommendations and pushing to plan.rounds
     plan.rounds.push( {
       options: recommendations,
@@ -43,7 +44,8 @@ router.post( '/', function( req, res ) {
     //saving plan to db
     return db.save( 'plan', plan );
   })
-  .then( function ( result ) {
+  .then( function ( result ) {  
+    
     // Sends emails each hostWho for first round voting
     sendEmails( result, 0 );
     res.json( result ); //mongo sends back an object, so stringify on send via res.json

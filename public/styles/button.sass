@@ -1,6 +1,50 @@
+@import variables
+
 button,
 input[type="button"]
   background: transparent
-  border: 1px solid #333
+  border: 1px solid
   border-radius: .25em
   padding: .25em .5em
+  display: inline-block
+
+button.good
+  border-color: $green
+  color: $green
+  &:hover
+    background: $green
+    color: #fff
+
+button.neutral
+  border-color: $blue
+  color: $blue
+  &:hover
+    background: $blue
+    color: #fff
+
+button.warning
+  border-color: $yellow
+  color: $yellow
+  &:hover
+    background: $yellow
+    color: #fff
+
+button.error
+  border-color: $red
+  color: $red
+  &:hover
+    background: $red
+    color: #fff
+
+
+// sizes
+button.lg
+  font-size: 2rem
+
+button.xl
+  font-size: 4rem
+
+
+// utilities
+.no-padding
+  padding: 0

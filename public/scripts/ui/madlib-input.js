@@ -21,6 +21,19 @@
           .val( evt.target.innerHTML )
           .trigger( "input" );
       }.bind( this ));
+
+      // http://jsfiddle.net/epinapala/WdeTM/4/
+      // select text on focus
+      // setTimeout let's you wait till after default (cursor at point) happens.
+      this.madlibInput.on( "focus", function() {
+        setTimeout( function() {        
+          var selection = window.getSelection();
+          var range = document.createRange();
+          range.selectNodeContents( this );
+          selection.removeAllRanges();
+          selection.addRange( range );
+        }.bind( this ), 0 );
+      });
     }
 
     MadlibInput.prototype.buildHtml = function() {

@@ -1,20 +1,26 @@
+@import variables
+
 .madlib-original-select
   display: none
 
 .madlib-select
   position: relative
+  background: $madlib_bg
+  color: $madlib_color
+  padding: .25em
+  border-radius: .25em
 
 .madlib-select--options
   position: absolute
   display: none
   top: 0
   left: -50%
-  background: #666
-  color: white
+  background: $madlib_alt_bg
+  color: $madlib_alt_color
 
 .madlib-select--option
   display: block
   padding: .5rem
 
 .madlib-select--option:hover
-  background: #999
+  background: $madlib_alt_bg

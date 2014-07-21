@@ -20,18 +20,23 @@ window.BuildPlanView = Backbone.View.extend({
     '<p>',
       'Let\'s finalize this rally within the next ',
       '<select name="finalVoteEnd">',
-        '<option value="5">5</option>',
-        '<option value="15">15</option>',
-        '<option value="30">30</option>',
+        '<option value="5">5 minutes</option>',
+        '<option value="15">15 minutes</option>',
+        '<option value="30">30 minutes</option>',
+        '<option value="60">1 hour</option>',
+        '<option value="180">3 hours</option>',
+        '<option value="500">5 hours</option>',
       '</select>',
-      ' minutes.',
+      '.',
     '</p>',
-    '<button type="button" id="createPlan">Checkmark Image</button>',
-    '<button type="reset" id="clearPlan">Clear</button></div>' ].join("") ),
+    '<div class="actions">',
+      '<button class="warning lg" id="clearPlan"><i class="fa fa-minus-circle"></i></button>',
+      '<button class="good lg" id="createPlan"><i class="fa fa-check-circle-o"></i></button>',
+    '</div>'
+  ].join("") ),
 
   initialize: function() {
     this.render();
-    // save references to the inputs once so we don't have to perform mutliple $() selections
   },
 
   events: {
@@ -105,14 +110,13 @@ window.BuildPlanView = Backbone.View.extend({
   },
 
 
-  madlib: function( tree ) {
+  madlib: function() {
     this._selects.map( function() {
       $( this ).madlibSelect();
     });
     this._inputs.map( function() {
       $( this ).madlibInput();
     });
-    return tree;
   },
 
   render: function() {
@@ -131,7 +135,7 @@ window.BuildPlanView = Backbone.View.extend({
     this._$hostName = domTree.find( '[name="hostName"]' );
     this._$finalVoteEnd = domTree.find( '[name="finalVoteEnd"]' );
     
-    this.madlib( domTree );
+    this.madlib();
     this.$el.empty().append( domTree );
 
     return this;
