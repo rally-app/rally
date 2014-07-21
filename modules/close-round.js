@@ -1,6 +1,5 @@
 var calculateWinner = require( './calculate-winner' );
 var sendEmails = require( './send-emails' );
-// var db = require( '../stubs/db' );
 var db = require( './mongodb.js' );
 
 module.exports = function( plan, roundNumber ) {

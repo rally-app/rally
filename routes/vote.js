@@ -3,7 +3,6 @@
 var express = require( 'express' );
 var router = express.Router();
 
-// var db = require( '../stubs/db' );
 var db = require( '../modules/mongodb.js' );
 var closeRound = require( '../modules/close-round.js' );
 var voteAlgorithm = require( '../stubs/vote-algorithm' );

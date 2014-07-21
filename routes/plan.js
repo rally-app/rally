@@ -5,10 +5,6 @@ var router = express.Router();
 var sendEmails = require( '../modules/send-emails' );
 
 
-// stub for real db obj/methods
-// db.find() and db.save() return promises
-// our real db implementation will have promisified methods
-// var db = require( '../stubs/db' );
 var db = require( '../modules/mongodb.js' );
 // var options = require( '../stubs/options-fixture' );
 var places = require( '../modules/places.js' );
