@@ -15,7 +15,6 @@ appWrapper.loadingView = function() {
 window.Router = Backbone.Router.extend({
 
   routes: {
-    // '': 'buildPlan',
     '': 'checkHost',
     'build': 'buildPlan',
     ':id': 'proposedPlan',

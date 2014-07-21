@@ -40,10 +40,9 @@ window.BuildPlanView = Backbone.View.extend({
   },
 
   getValues: function() {
-    var self = this;
     return {
       hostWho: this.getWho(),
-      hostName: self.localName(),
+      hostName: this.localName(),
       hostWhat: this._$hostWhat.val(),
       hostWhere: this._$hostWhere.val(),
       hostWhen: this.makeWhen( this._$hostWhen.val() ),

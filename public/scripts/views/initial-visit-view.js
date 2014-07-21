@@ -35,7 +35,6 @@ var InitialVisitView = window.InitialVisitView = Backbone.View.extend({
   },
 
   render: function() {
-    // this.$el.empty().append( this.template.render( {} ) );
     this.$el.html( this.template.render() );
     this.emailInput = this.$( '#ivv-email' );
     this.nameInput = this.$( '#ivv-name' );
