@@ -1,380 +1,292 @@
-### Indentation
+# Style Guide
 
-When writing any block of code that is logically subordinate to the line immediately before and after it, that block should be indented two spaces more than the surrounding lines
+## Punctuation, Spacing, Linebreaks
 
-* Do not put any tab characters anywhere in your code. You would do best to stop pressing the tab key entirely.
-* Increase the indent level for all blocks by two extra spaces
-    * When a line opens a block, the next line starts 2 spaces further in than the line that opened
+Too little spacing makes code cramped and claustrophobic.
 
-        ```javascript
-        // good:
-        if(condition){
-          action();
-        }
+```javascript
+// no good
 
-        // bad:
-        if(condition){
-        action();
-        }
-        ```
+if(condition) doSomething();
 
-    * When a line closes a block, that line starts at the same level as the line that opened the block
-        ```javascript
-        // good:
-        if(condition){
-          action();
-        }
+while(iterator) iterator--; 
 
-        // bad:
-        if(condition){
-          action();
-          }
-        ```
+for(var i=0; i<100; i++) doSomething();
+```
+Let your code [breathe](https://www.youtube.com/watch?v=e8zRiaLOkfc&feature=kp)!
 
-    * No two lines should ever have more or less than 2 spaces difference in their indentation. Any number of mistakes in the above rules could lead to this, but one example would be:
+```javascript
+// much better
+if ( condition ) {
+  doSomething();
+}
 
-        ```javascript
-        // bad:
-        transmogrify({
-          a: {
-            b: function(){
-            }
-        }});
-        ```
+while ( iterator ) {
+  iterator--;
+}
 
-    * use sublime's arrow collapsing as a guide. do the collapsing lines seem like they should be 'contained' by the line with an arrow on it?
+// var statement here isn't ideal, keep reading...
+for ( var i = 0; i < 100; i++ ) {
+  doSomething();
+}
+```
 
+All blocks should use curly braces. They're optional for one-liners, but leaving off braces can introduce ambiguity. Further, if you add to a block later then you need to be sure to add braces. Better to just do it up front.
 
-### Variable names
+Leave spaces even between consecutive parens.
 
-* A single descriptive word is best.
+```javascript
+while ( returnsBool( val ) ) {
+  // makes it easier to count your parens
+}
 
-    ```javascript
-    // good:
-    var animals = ['cat', 'dog', 'fish'];
+while ( returnsBool( val )) {
+  // can get a little funky with more nesting
+}
+```
 
-    // bad:
-    var targetInputs = ['cat', 'dog', 'fish'];
-    ```
+However... when you have consecutive punctuation that aren't the same, condense.
 
-* Collections such as arrays and maps should have plural noun variable names.
+```javascript
+// nope
+myFunction( { param: "someValue" } );
+myOtherFn( [ "value1", "value2" ] );
 
-    ```javascript
-    // good:
-    var animals = ['cat', 'dog', 'fish'];
-
-    // bad:
-    var animalList = ['cat', 'dog', 'fish'];
-
-    // bad:
-    var animal = ['cat', 'dog', 'fish'];
-    ```
-
-* Name your variables after their purpose, not their structure
-
-    ```javascript
-    // good:
-    var animals = ['cat', 'dog', 'fish'];
-
-    // bad:
-    var array = ['cat', 'dog', 'fish'];
-    ```
+// yep
+myFunction({ param: "someValue" });
+myOtherFn([ "value1", "value2" ]);
+```
 
 
-### Language constructs
+## Declaration and Assignment
 
-* Do not use `for...in` statements with the intent of iterating over a list of numeric keys. Use a for-with-semicolons statement in stead.
+Each variable should get it's own `var`. Using commas is error-prone. Suck it up and just type out `v`-`a`-`r`.
 
-  ```javascript
-  // good:
-  var list = ['a', 'b', 'c']
-  for(var i = 0; i < list.length; i++){
-    alert(list[i]);
+```javascript
+// no good
+var example = function() {
+  var num = 1,
+      ltr = "a";
+};
+
+
+// SO good
+var example = function() {
+  var num = 1;
+  var ltr = "a";
+};
+```
+
+All `var` statements should be at the top of the function scope.
+
+```javascript
+// no good
+var example = function() {
+  // statements ...
+
+  var num = 1;
+  var ltr = "a";
+};
+
+
+// SO good
+var example = function() {
+  var num = 1;
+  var ltr = "a";
+
+  // statements ...
+};
+```
+
+ECMA6 block-level declarations (`let` and `const`) should likewise occur at the top of _their_ scope, i.e. the block. Prefer `let` over `var` when it becomes feasible. 
+
+Try to avoid function declarations. Hoisting weirdness is hard to debug.
+
+```
+// not so good
+function myFn() {}
+
+// oh yeah
+var myFn = function() {};
+```
+
+## Literals and Nesting
+For object literals, put the colon directly next to the property name.
+
+```javascript
+// naw
+var obj = {
+  someProp : "someValue",
+  someOtherProp : "anotherValue"
+};
+
+// yee-haw
+var obj = {
+  someProp: "someValue",
+  someOtherProp: "anotherValue"
+};
+```
+
+Don't open or close too many braces or brackets at once. Use newlines.
+
+```javascript
+// yuck
+var collection = [{ key: "value", 
+  colors: ["green", "blue"]
+}, { key: "otherValue",
+  colors: ["red", "orange"]
+}];
+
+// so pretty
+var collection = [
+  { 
+    key: "value", 
+    colors: [ "green", "blue" ]
+  }, { 
+    key: "otherValue",
+    colors: [ "red", "orange" ]
+   }
+];
+```
+
+## Classes and Inheritance
+
+Wrap your classes in an [IIFE](http://en.wikipedia.org/wiki/Immediately-invoked_function_expression). It's not really necessary but it helps keep the code in a logical bundle, and is also nice for subclassing. It's ok to use a function declaration here; it helps draw attention to the constructor, and it should _always_ be the first thing in the IIFE anyway. This is inspired by the compiled JS from CoffeeScript `class` declarations.
+
+```javascript
+var Person = (function() {
+  
+  function Person( name ) {
+    this.name = name;
   }
 
-  // bad:
-  var list = ['a', 'b', 'c']
-  for(var i in list){
-    alert(list[i]);
-  }
-  ```
-
-* Never omit braces for statement blocks (although they are technically optional).
-    ```javascript
-    // good:
-    for(key in object){
-      alert(key);
-    }
-
-    // bad:
-    for(key in object)
-      alert(key);
-    ```
-
-* Always use `===` and `!==`, since `==` and `!=` will automatically convert types in ways you're unlikely to expect.
-
-    ```javascript
-    // good:
-
-    // this comparison evaluates to false, because the number zero is not the same as the empty string.
-    if(0 === ''){
-      alert('looks like they\'re equal');
-    }
-
-    // bad:
-
-    // This comparison evaluates to true, because after type coercion, zero and the empty string are equal.
-    if(0 == ''){
-      alert('looks like they\'re equal');
-    }
-    ```
-
-* Don't use function statements for the entire first half of the course. They introduce a slew of subtle new rules to how the language behaves, and without a clear benefit. Once you and all your peers are expert level in the second half, you can start to use the more (needlessly) complicated option if you like.
-
-    ```javascript
-    // good:
-    var go = function(){...};
-
-    // bad:
-    function stop(){...};
-    ```
-
-
-### Semicolons
-
-* Don't forget semicolons at the end of lines
-
-  ```javascript
-  // good:
-  alert('hi');
-
-  // bad:
-  alert('hi')
-  ```
-
-* Semicolons are not required at the end of statements that include a block--i.e. `if`, `for`, `while`, etc.
-
-
-  ```javascript
-  // good:
-  if(condition){
-    response();
-  }
-
-  // bad:
-  if(condition){
-    response();
-  };
-  ```
-
-* Misleadingly, a function may be used at the end of a normal assignment statement, and would require a semicolon (even though it looks rather like the end of some statement block).
-
-  ```javascript
-  // good:
-  var greet = function(){
-    alert('hi');
+  Person.prototype.walk = function() {
+    // awesome method code
   };
 
-  // bad:
-  var greet = function(){
-    alert('hi');
+  return Person;
+
+})();
+```
+
+Use `Object.create` for subclassing. Use a polyfill if you're worried about older browsers. When subclassing, pass the superclass constructor into the IIFE.
+
+```javascript
+var Child = (function( _super ) {
+  
+  function Child( name ) {
+    this.name = name;
   }
-  ```
 
-# Supplemental reading
+  Child.prototype = Object.create( _super.prototype );
 
-### Code density
+  Child.prototype.play = function() {
+    // awesome method code
+  };
 
-* Conserve line quantity by minimizing the number lines you write in. The more concisely your code is written, the more context can be seen in one screen.
-* Conserve line length by minimizing the amount of complexity you put on each line. Long lines are difficult to read. Rather than a character count limit, I recommend limiting the amount of complexity you put on a single line. Try to make it easily read in one glance. This goal is in conflict with the line quantity goal, so you must do your best to balance them.
+  Child.prototype.work = function() {
+    // call "super" like so
+    _super.prototype.work.call( this );
 
-### Comments
+    // more code
+  }
 
-* Provide comments any time you are confident it will make reading your code easier.
-* Be aware that comments come at some cost. They make a file longer and can drift out of sync with the code they annotate.
-* Comment on what code is attempting to do, not how it will achieve it.
-* A good comment is often less effective than a good variable name.
+  return Child;
 
+})( Person );
+```
 
-### Padding & additional whitespace
+When it becomes possible, or if you're compiling ES6 code to ES5, go ahead and use the new `class` syntax.
 
-* Generally, we don't care where you put extra spaces, provided they are not distracting.
-* You may use it as padding for visual clarity. If you do though, make sure it's balanced on both sides.
+## Iteration
+Prefer `Array.prototype` methods over everything else! Use a polyfill for `Object.keys` if you need it. Yes, `forEach` and friends are somewhat slower than a `for` loop, but don't prematurely optimize. Plus, you get closure scope for free with the `Array.prototype` iterators, which can come in handy.
 
-    ```javascript
-    // optional:
-    alert( "I chose to put visual padding around this string" );
+```javascript
+// bad
+var i;
+for ( i = 0; i < arr.length; i++ ) {
+  // code
+}
 
-    // bad:
-    alert( "I only put visual padding on one side of this string");
-    ```
+var key;
+for ( key in obj ) {
+  if ( Object.hasOwnProperty( key ) ) {
+    // code
+  }
+}
 
-* You may use it to align two similar lines, but it is not recommended. This pattern usually leads to unnecessary edits of many lines in your code every time you change a variable name.
+// good
+arr.forEach( function( item ) {
+  // code
+});
 
-    ```javascript
-    // discouraged:
-    var firstItem  = getFirst ();
-    var secondItem = getSecond();
-    ```
+Object.keys( obj ).forEach( function( key ) {
+  // code
+});
+```
 
-* Put `else` and `else if` statements on the same line as the ending curly brace for the preceding `if` block
-    ```javascript
-    // good:
-    if(condition){
-      response();
-    }else{
-      otherResponse();
-    }
+When you can't use an `Array.prototype` method, prefer `while` over `for`. Exactly what is happening and where is more clear with a `while` loop. If you _do_ use a `for` loop, for the love of God, keep it simple. There aren't any ribbons for coming up with clever conditions that trim off a line or two of code. When debugging, you often just skip over the opening of a `for` loop assuming it does what you expect. Sticking tricky conditions in the middle of three statements on a single line is asking for trouble. Incidentally, this is another reason to prefer `while` loops. The condition isn't trapped between other statements, it's sitting right there next to `while`, making it easier to identify. Also (I think) developers are less likely to skim over a `while` loop's condition assuming it does something.
 
-    // bad:
-    if(condition){
-      response();
-    }
-    else{
-      otherResponse();
-    }
-    ```
+```javascript
+var people = [{ name: John Doe, age: 30 }, ... /* more people */ ];
 
+var i;
+var person;
 
+// best
+i = 0;
+while ( i < people.length ) {
+  person = people[i];
+  // etc...
+  i += 1;
+}
 
-### Working with files
+// meh
+for ( i = 0; i < people.length; i++ ) {
+  person = people[i];
+  // etc...
+}
 
-* Do not end a file with any character other than a newline.
-* Don't use the -a or -m flags for `git commit` for the first half of the class, since they conceal what is actually happening (and do slightly different things than most people expect).
+// NO!
+for ( i = 0; person = people[i]; i++ ) {
+  // etc...
+}
+```
 
-    ```shell
-    # good:
-    > git add .
-    > git commit
-    [save edits to the commit message file using the text editor that opens]
+## Modules and Design Patterns
 
-    # bad:
-    > git commit -a
-    [save edits to the commit message file using the text editor that opens]
+1. Things you're exporting from a module should be grouped in a single place.
+2. Use Browserify when you can. Or ES6 modules. Steer clear of module loaders (AMD).
+3. Use "revealing module pattern" if not using above.
 
-    # bad:
-    > git add .
-    > git commit -m "updated algorithm"
-    ```
+The easiest way to bring this all together is to basically stick to the same pattern:
 
+```javascript
+// revealing module style
 
-### Opening or closing too many blocks at once
+var revealingModule = (function() {
+  var superCoolObj;
+  var someFunc = function(){};
+  // other code
+  superCoolObj = generateCoolObj();
 
-* The more blocks you open on a single line, the more your reader needs to remember about the context of what they are reading. Try to resolve your blocks early, and refactor. A good rule is to avoid closing more than two blocks on a single line--three in a pinch.
+  return {
+    someFunc: someFunc,
+    superCoolObj: superCoolObj
+  };
+})();
 
-    ```javascript
-    // avoid:
-    _.ajax(url, {success: function(){
-      // ...
-    }});
+// export style
 
-    // prefer:
-    _.ajax(url, {
-      success: function(){
-        // ...
-      }
-    });
-    ```
+var superCoolObj;
+var someFunc = function(){};
+// other code
+superCoolObj = generateCoolObj();
 
+module.exports = {
+  someFunc: someFunc,
+  superCoolObj: superCoolObj
+};
+```
 
-### Variable declaration
-
-* Use a new var statement for each line you declare a variable on.
-* Do not break variable declarations onto mutiple lines.
-* Use a new line for each variable declaration.
-* See http://benalman.com/news/2012/05/multiple-var-statements-javascript/ for more details
-
-    ```javascript
-    // good:
-    var ape;
-    var bat;
-
-    // bad:
-    var cat,
-        dog
-
-    // use sparingly:
-    var eel, fly;
-    ```
-
-### Capital letters in variable names
-
-* Some people choose to use capitalization of the first letter in their variable names to indicate that they contain a [class](http://en.wikipedia.org/wiki/Class_(computer_science\)). This capitalized variable might contain a function, a prototype, or some other construct that acts as a representative for the whole class.
-* Optionally, some people use a capital letter only on functions that are written to be run with the keyword `new`.
-* Do not use all-caps for any variables. Some people use this pattern to indicate an intended "constant" variable, but the language does not offer true constants, only mutable variables.
-
-
-### Minutia
-
-* Don't rely on JavaScripts implicit global variables. If you are intending to write to the global scope, export things to `window.*` explicitly instead.
-
-    ```javascript
-    // good:
-    var overwriteNumber = function(){
-      window.exported = Math.random();
-    };
-
-    // bad:
-    var overwriteNumber = function(){
-      exported = Math.random();
-    };
-    ```
-
-* For lists, put commas at the end of each newline, not at the beginning of each item in a list
-
-    ```javascript
-    // good:
-    var animals = [
-      'ape',
-      'bat',
-      'cat'
-    ];
-
-    // bad:
-    var animals = [
-        'ape'
-      , 'bat'
-      , 'cat'
-    ];
-    ```
-
-* Avoid use of `switch` statements altogether. They are hard to outdent using the standard whitespace rules above, and are prone to error due to missing `break` statements. See [this article](http://ericleads.com/2012/12/switch-case-considered-harmful/) for more detail.
-
-* Prefer single quotes around JavaScript strings, rather than double quotes. Having a standard of any sort is preferable to a mix-and-match approach, and single quotes allow for easy embedding of HTML, which prefers double quotes around tag attributes.
-
-    ```javascript
-    // good:
-    var dog = 'dog';
-    var cat = 'cat';
-
-    // acceptable:
-    var dog = "dog";
-    var cat = "cat";
-
-    // bad:
-    var dog = 'dog';
-    var cat = "cat";
-    ```
-
-
-### HTML
-
-* Do not use ids for html elements. Use a class instead.
-
-    ```html
-    <!-- good -->
-    <img class="lucy" />
-
-    <!-- bad -->
-    <img id="lucy" />
-    ```
-
-* Do not include a `type=text/javascript"` attribute on script tags
-
-    ```html
-    <!-- good -->
-    <script src="a.js"></script>
-
-    <!-- bad -->
-    <script src="a.js" type="text/javascript"></script>
-    ```
+This makes it easy to see what is exported, as there's only one place to look. There are a lot of ways to mess this up. Generally, just pick a style that makes identifying exports as easy as possible.
