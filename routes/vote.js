@@ -7,6 +7,7 @@ var db = require( '../modules/mongodb.js' );
 var closeRound = require( '../modules/close-round.js' );
 var voteAlgorithm = require( '../stubs/vote-algorithm' );
 
+//the code below saves a separate vote model and then updates the plan model with that vote, which isn't necessary currently
 router.post( '/', function( req, res ) {
   var vote;
   // save a record of the vote, then find the matching plan
@@ -29,18 +30,16 @@ router.post( '/', function( req, res ) {
     } else {
       // set the session last vote equal to the current round
       req.session.lastVote = currentRound;
-      // add the vote tp the plan and update the plan in the database
+      // add the vote to the plan and update the plan in the database
       plan.rounds[ currentRound ].votes.push( vote );
-      console.log( plan.rounds[ currentRound ].votes );
       return db.update( 'plan', plan.id, plan );
     }
   })
   // check if this round is done and close it if so.
   // respond with the updated plan
-  .then( function( plan ) {
-    console.log( 'trying to close round', JSON.stringify( plan[0].rounds[0].votes ) );
+  .then( function( plan ) { // returns exact result, not within array (unlike mongo.find)
     if ( plan.rounds[ vote.currentRoundNum - 1 ].votes.length === plan.hostWho.length + 1 ) {
-      console.log( 'closing round', JSON.stringify( plan.rounds[ vote.currentRoundNum - 1 ] ) );
+      console.log( 'closing round...' );
       closeRound( plan, vote.currentRoundNum - 1 );
     }
     res.json( plan );

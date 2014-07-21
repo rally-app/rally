@@ -16,7 +16,7 @@ var secrets = require('../secrets.js');
 var testPlan = require( '../stubs/plan-fixture.js' );
 
 //retrieve our custom connection string from environmental variable set in Azure
-var connectionString = secrets.MONGO_CONN || process.env.CUSTOMCONNSTR_MONGOLAB_URI; //replace with only process.env
+var connectionString = process.env.CUSTOMCONNSTR_MONGOLAB_URI || secrets.MONGO_CONN; //replace with only process.env
 
 var mongo = new Mongo ( connectionString, { auto_reconnect: true } );
 
@@ -52,6 +52,7 @@ var save = function( collectionName, obj ) {
 
 //PUT
 var update = function( collectionName, id, obj ) {
+  console.log( 'updating database at collection:', collectionName, ', id:', id, ', votes:', obj.rounds[0].votes );
   return mongo.findAndModify( collectionName, { id: id }, obj );
 };
 
