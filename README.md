@@ -21,6 +21,8 @@ Instructions for development are available at the Asana link below.
 
 - Node 0.10.29
 - Express
+- Underscore
+- jQuery
 - Backbone
 - Hogan
 - MongoDB
