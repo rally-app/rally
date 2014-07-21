@@ -14,7 +14,6 @@ window.FinalPlanView = Backbone.View.extend({
 
 
   initialize: function(){
-    console.log( this, this.model );
     this.render();
   },
 
