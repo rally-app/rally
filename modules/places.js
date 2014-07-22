@@ -8,6 +8,9 @@ module.exports = function( queryString ) {
     var places = JSON.parse(results).results;
 
     return randomPlaces( places );
+  })
+  .catch( function( err ) {
+    console.log( err );
   });
 
 };

@@ -8,6 +8,8 @@ var app = require( "../app" );
 // set the app's environment to development
 app.set( "env", "development" );
 
+process.env.DEV = true;
+
 // set the app's port
 app.set( "port", process.env.PORT || 3000 );
 

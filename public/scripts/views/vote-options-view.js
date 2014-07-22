@@ -20,6 +20,7 @@ window.VoteOptionsView = Backbone.View.extend({
   className: 'voteOptionsView',
 
   template: hogan.compile([
+    '<p>Tap the options below to indicate your preference order.</p>',
     '<ul class="priority-list">',
       '{{#currentRoundOptions}}',
         '<li class="option priority-item" data-value="{{name}}" data-index="{{index}}">',
@@ -50,9 +51,8 @@ window.VoteOptionsView = Backbone.View.extend({
   events: {
     'click .priority-item': function( event ){
       var $target = $( event.currentTarget );
-      if ( !$target.is( ".priority-item--disabled" ) ) {
+      if ( !$target.is( "[data-order]" ) ) {
         this._priorityCount += 1;
-        $target.addClass( "priority-item--disabled" );
         $target.attr( "data-order", this._priorityCount );
         this.controller.setPriority( +$target.data( "index" ) );
       }
@@ -75,7 +75,10 @@ window.VoteOptionsView = Backbone.View.extend({
       this._voteModel.set( 'userVotes', userVotes );
       var currentRoundOptions = this.model.get( 'currentRoundOptions' );
       if( userVotes.length === currentRoundOptions.length ) {
-        $( '#submitVote' ).trigger( 'click' );
+        // delay a bit so the user sees that their votes are counted.
+        setTimeout( function() {
+          $( '#submitVote' ).trigger( 'click' );
+        }, 300 );
       }
     },
 
