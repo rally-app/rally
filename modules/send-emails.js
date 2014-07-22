@@ -43,6 +43,7 @@ var interpolate = function( str, obj ) {
 
 var generateEmails = function( plan, round ) {
   var template = ( round === plan.rounds.length ? 'final' : 'round' );
+  var recipients = ( round === 0 ? plan.hostWho.slice( 0, -1 ) : plan.hostWho );
   var info = {
     link: ( function() {
       if ( template === 'round' ) {
@@ -52,7 +53,7 @@ var generateEmails = function( plan, round ) {
       }
     })()
   };
-  return plan.hostWho.map( function( recipient ) {
+  return recipients.map( function( recipient ) {
     return {
       to: recipient,
       from: EMAIL_ADDRESS,
