@@ -1,6 +1,7 @@
 # Project Name
 Rally
 
+## Description
 Rally enables groups to quickly vote on what to do, where, and when.
 
 ## Table of Contents

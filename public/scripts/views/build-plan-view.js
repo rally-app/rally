@@ -20,6 +20,7 @@ window.BuildPlanView = Backbone.View.extend({
     '<p>',
       'Let\'s finalize this rally within the next ',
       '<select name="finalVoteEnd">',
+        '<option value="1">1</option>',
         '<option value="5">5 minutes</option>',
         '<option value="15">15 minutes</option>',
         '<option value="30">30 minutes</option>',

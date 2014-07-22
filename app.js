@@ -70,7 +70,11 @@ app.use(function(err, req, res, next) {
   });
 });
 
-//create interval of checking database for expired round deadlines
-deadline.expireDeadlines();
+//create interval to expireDeadlines every minute
+//using setInterval as this will offset drift that may arise from setTimeout
+//and should still do it on average once per minute
+setInterval( function(){
+  deadline.expireDeadlines();
+}, 60000 );
 
 module.exports = app;

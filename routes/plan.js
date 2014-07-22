@@ -4,7 +4,6 @@ var express = require( 'express' );
 var router = express.Router();
 var sendEmails = require( '../modules/send-emails' );
 
-
 var db = require( '../modules/mongodb.js' );
 // var options = require( '../stubs/options-fixture' );
 var places = require( '../modules/places.js' );
@@ -28,6 +27,7 @@ router.post( '/', function( req, res ) {
 
   //concatenate google places search -- could add additional translation between user intent and google search later
   var query = plan.hostWhat + ' near ' + plan.hostWhere;
+  
   //create google places query
   places( query )
   .then( function ( recommendations ) {

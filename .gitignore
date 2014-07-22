@@ -34,9 +34,10 @@ public/bower_components
 .tmp
 test/bower_components/
 
-# temp environmental variables
+# temp environmental variables & places fixture
 secrets.js
 start-app.txt
+places-fixture.json
 
 # Azure
 azure.err
