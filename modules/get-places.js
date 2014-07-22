@@ -23,6 +23,11 @@ module.exports = function( queryString ) {
       console.log( 'Error in request to google places api: ', e );
       reject( e );
     });
+
+    // // hacky solution for using fixture data instead of using a bunch of Places API calls
+    // // comment out from https.get to here to use this hacky solution
+    // var placesFixture = require( '../stubs/places-fixture.json' );
+    // resolve( JSON.stringify( placesFixture ) );
   });
 
 };

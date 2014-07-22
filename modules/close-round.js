@@ -7,9 +7,10 @@ module.exports = function( plan, roundNumber ) {
   plan.rounds[ roundNumber ].winner = winner;
   db.update( 'plan', plan.id, plan )
   .then( function( plan ) {
+    console.log( 'closing rounds[0] from', plan.id );
     sendEmails( plan, roundNumber + 1 );
   })
   .catch( function( err ) {
-    console.log( err );
+    console.log( 'failed to close rounds', err );
   });
 };

@@ -9,7 +9,7 @@ var emailTemplates = require( './email-templates' );
 
 // module constants
 var EMAIL_ADDRESS = 'time.to.rally.up@gmail.com';
-var EMAIL_PASSWORD = process.env.EMAIL_PASSWORD || require( '../secrets' ).EMAIL_PASSWORD;
+var EMAIL_PASSWORD = process.env.EMAIL_PASSWORD;
 var BASE_URL = 'http://rally.azurewebsites.net/';
 
 var transporter = nodemailer.createTransport({

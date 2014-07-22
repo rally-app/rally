@@ -4,7 +4,6 @@ var express = require( 'express' );
 var router = express.Router();
 var sendEmails = require( '../modules/send-emails' );
 
-
 var db = require( '../modules/mongodb.js' );
 // var options = require( '../stubs/options-fixture' );
 var places = require( '../modules/places.js' );
@@ -28,6 +27,7 @@ router.post( '/', function( req, res ) {
 
   //concatenate google places search -- could add additional translation between user intent and google search later
   var query = plan.hostWhat + ' near ' + plan.hostWhere;
+  
   //create google places query
   places( query )
   .then( function ( recommendations ) {
@@ -39,7 +39,7 @@ router.post( '/', function( req, res ) {
       votes: [],
       winner: null,
     } );
-    // deadline.addRoundDeadlines( plan );
+    deadline.addRoundDeadlines( plan );
 
     //saving plan to db
     return db.save( 'plan', plan );
@@ -49,7 +49,7 @@ router.post( '/', function( req, res ) {
     // Sends emails each hostWho for first round voting
     sendEmails( result, 0 );
     res.json( result ); //mongo sends back an object, so stringify on send via res.json
-    // deadline.registerDeadlinesInDb( result );
+    deadline.registerDeadlinesInDb( result );
   })
   .catch( function( statusCode ) {
     res.send( statusCode );

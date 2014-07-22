@@ -1,5 +1,5 @@
 var url = require( 'url' );
-var GOOGLE_API_KEY = process.env.GOOGLE_API_KEY || require( '../secrets.js' ).GOOGLE_API_KEY;
+var GOOGLE_API_KEY = process.env.GOOGLE_API_KEY;
 
 module.exports = function( queryString ) {
 

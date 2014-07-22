@@ -20,6 +20,7 @@ window.BuildPlanView = Backbone.View.extend({
     '<p>',
       'Let\'s finalize this rally within the next ',
       '<select name="finalVoteEnd">',
+        '<option value="1">1 minute</option>',
         '<option value="5">5 minutes</option>',
         '<option value="15">15 minutes</option>',
         '<option value="30">30 minutes</option>',
@@ -82,7 +83,7 @@ window.BuildPlanView = Backbone.View.extend({
     var values = this.getValues();
 
     $.extend( values, {
-      createdAt: moment().startOf( 'minute' ).add( 'minutes', 1 ),
+      createdAt: moment().startOf( 'minute' ).add( 'minutes', 1 ), //round up to next minute for facility with expireDeadlines()
       attending: 1
     });
     model.set( values );
@@ -105,8 +106,8 @@ window.BuildPlanView = Backbone.View.extend({
   },
 
   makeEnd: function( minutes ) {
-    //round to nearest minute and add 1 to remain relative to createdAt
-    return moment().startOf( 'minute' ).add( 'minutes', minutes + 1 ); 
+    //round up to nearest minute and add 1 to remain relative to createdAt
+    return moment().startOf( 'minute' ).add( 'minutes', minutes ).add( 'minutes', 1 );
   },
 
 
