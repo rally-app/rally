@@ -4,6 +4,7 @@ window.PlanModel = Backbone.Model.extend({
   initialize: function() {
     this.set( 'rounds', [] );
     this.on( 'sync', function(){
+      console.log( this );
       if ( this.get( 'rounds' ).length ) {
         this.setCurrentRound();
         this.setOptionIndices();

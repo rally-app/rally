@@ -9,18 +9,19 @@
   color: $madlib_color
   padding: .25em
   border-radius: .25em
+  cursor: pointer
 
 .madlib-select--options
   position: absolute
   display: none
   top: 0
-  left: -50%
+  left: 0
+  min-width: 8rem
   background: $madlib_alt_bg
   color: $madlib_alt_color
 
 .madlib-select--option
   display: block
   padding: .5rem
-
-.madlib-select--option:hover
-  background: $madlib_alt_bg
+  &:hover
+    background: #999

@@ -1,3 +1,5 @@
+$num_options: 3
+
 .priority-list 
   list-style-type: none
   padding-left: 0
@@ -18,7 +20,11 @@
   opacity: 0
   transition: .25s ease-in-out
   -webkit-transform: scale(0)
+  -moz-transform: scale(0)
+  transform: scale(0)
   -webkit-transform-origin: center center
+  -moz-transform-origin: center center
+  transform-origin: center center
   width: 1.5em
   height: 1.5em
   text-align: center
@@ -27,13 +33,18 @@
   background: white
   border-radius: 1em
 
-.priority-item.priority-item--disabled 
+.priority-item[data-order]
   transition: opacity .25s ease-in-out .15s, background .25s ease-in-out, color .25s ease-in-out
-  background: #3498db
   color: white
   cursor: not-allowed
 
-.priority-item.priority-item--disabled:after 
+.priority-item[data-order]:after 
   opacity: 1
   transition-timing-function: cubic-bezier(0.5, -0.5, 0.5, 1.5)
   -webkit-transform: scale(1)
+  -moz-transform: scale(1)
+  transform: scale(1)
+
+@for $i from 1 through $num_options
+  .priority-item[data-order='#{$i}']
+    background: lighten( #3498db, ( $i - 1 ) * 10 )
