@@ -44,12 +44,13 @@ var interpolate = function( str, obj ) {
 var generateEmails = function( plan, round ) {
   var template = ( round === plan.rounds.length ? 'final' : 'round' );
   var recipients = ( round === 0 ? plan.hostWho.slice( 0, -1 ) : plan.hostWho );
+  var commonURL = BASE_URL + '#/' + plan.id;
   var info = {
     link: ( function() {
       if ( template === 'round' ) {
-        return BASE_URL + '#/' + plan.id + '/round/' + ( round + 1 );
+        return commonURL + ( round === 0 ? '' : '/round/' + ( round + 1 ) );
       } else if ( template === 'final' ) {
-        return BASE_URL + '#/' + plan.id + '/result';
+        return commonURL + '/result';
       }
     })()
   };
