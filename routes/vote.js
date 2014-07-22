@@ -5,7 +5,7 @@ var router = express.Router();
 
 var db = require( '../modules/mongodb.js' );
 var closeRound = require( '../modules/close-round.js' );
-var voteAlgorithm = require( '../stubs/vote-algorithm' );
+// var voteAlgorithm = require( '../stubs/vote-algorithm' );
 
 //the code below saves a separate vote model and then updates the plan model with that vote, which isn't necessary currently
 router.post( '/', function( req, res ) {
