@@ -37,7 +37,7 @@ var registerDeadlinesInDb = function( plan ) {
 
 //expire all round deadlines less than the current time threshold every minute; initiated from app.js
 var expireDeadlines = function() {
-  var thresholdInMillis = moment().startOf( 'minute' ).add( 'minute', 1 ).unix(); //server's time rounded up to next minute to match times in plan model
+  var thresholdInMillis = moment().startOf( 'minute' ).add( 'minutes', 1 ).unix(); //server's time rounded up to next minute to match times in plan model
   
   console.log( 'thresholdInMillis', thresholdInMillis );
 
