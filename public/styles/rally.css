@@ -6,22 +6,23 @@
   background: #dddddd;
   color: #333333;
   padding: 0.25em;
-  border-radius: 0.25em; }
+  border-radius: 0.25em;
+  cursor: pointer; }
 
 .madlib-select--options {
   position: absolute;
   display: none;
   top: 0;
-  left: -50%;
+  left: 0;
+  min-width: 8rem;
   background: #666666;
   color: white; }
 
 .madlib-select--option {
   display: block;
   padding: 0.5rem; }
-
-.madlib-select--option:hover {
-  background: #666666; }
+  .madlib-select--option:hover {
+    background: #999999; }
 
 .madlib-input {
   background: transparent;
