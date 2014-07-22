@@ -4,7 +4,7 @@ var Bluebird = require( 'bluebird' );
 
 // require calls to scripts
 var uniqueId = require( '../stubs/uid.js' );
-var validateDeadline = require('../stubs/validate-deadline');
+// var validateDeadline = require('../stubs/validate-deadline');
 
 // constants for this file
 var NOT_FOUND = 404;
@@ -12,7 +12,7 @@ var BAD_REQUEST = 400;
 var DELAY = 100;
 
 //temporary
-var testPlan = require( '../stubs/plan-fixture.js' );
+// var testPlan = require( '../stubs/plan-fixture.js' );
 
 //retrieve our custom connection string from environmental variable set in Azure
 var connectionString = process.env.CUSTOMCONNSTR_MONGOLAB_URI || process.env.MONGO_CONN;
