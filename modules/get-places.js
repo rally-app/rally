@@ -5,8 +5,13 @@ var Promise = require('bluebird');
 
 module.exports = function( queryString ) {
 
-
   return new Promise( function( resolve, reject ) { 
+
+    if ( process.env.DEV ) {
+      resolve( JSON.stringify( require( '../stubs/places-fixture.json' ) ) );
+      return
+    }
+
     https.get( searchUrl( queryString ), function( response ) {
       
       var string = '';
@@ -23,11 +28,6 @@ module.exports = function( queryString ) {
       console.log( 'Error in request to google places api: ', e );
       reject( e );
     });
-
-    // // hacky solution for using fixture data instead of using a bunch of Places API calls
-    // // comment out from https.get to here to use this hacky solution
-    // var placesFixture = require( '../stubs/places-fixture.json' );
-    // resolve( JSON.stringify( placesFixture ) );
   });
 
 };
